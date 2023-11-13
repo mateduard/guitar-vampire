@@ -1,0 +1,21 @@
+.btn {
+  width: 100%;
+  font-family: 'Jura', 'cursive';
+  background-image: linear-gradient(90deg, #730017, 40%, #b70025);
+  background-position: left;
+  border-radius: 6px;
+  border: 1px solid #dcdcdc;
+  display: inline-block;
+  cursor: pointer;
+  color: white;
+  font-size: 15px;
+  font-weight: bold;
+  padding: 8px 24px;
+  text-decoration: none;
+  &:hover {
+    background-image: linear-gradient(90deg, #5d0013, 40%, #a10020);
+  }
+  &:active {
+    scale: (0.98);
+  }
+}

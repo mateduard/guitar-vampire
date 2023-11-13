@@ -1,0 +1,83 @@
+.guitar-card {
+  border: 1px solid #e6e5e5;
+  width: 300px;
+  height: 435px;
+  margin: 10px 10px;
+  padding: 6px;
+  display: flex;
+  flex-direction: column;
+  border-radius: 10px;
+  color: black;
+  transition: all 0.11s linear;
+
+  &:hover {
+    box-shadow: 0 0 11px rgba(33, 33, 33, 0.2);
+    transform: scale(1.02);
+  }
+
+  .img-wrap {
+    height: 300px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    img {
+      height: 100%;
+      width: 100%;
+    }
+  }
+
+  .card-content {
+    font-family: 'Jura', 'cursive';
+    padding: 10px 10px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    flex: 1;
+
+    h4 {
+      font-size: 1.2rem;
+    }
+
+    p {
+      font-size: 1.1rem;
+      margin-bottom: 15px;
+    }
+  }
+}
+
+@media only screen and (max-width: 740px) {
+  .guitar-card {
+    width: 280px;
+    height: 406px;
+  }
+}
+
+@media only screen and (max-width: 620px) {
+  .guitar-card {
+    width: 240px;
+    height: 348px;
+  }
+}
+
+@media only screen and (max-width: 542px) {
+  .guitar-card {
+    aspect-ratio: 1.45;
+    width: 90%;
+    height: auto;
+
+    .img-wrap {
+      margin: 0 auto;
+      height: 300px;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      overflow: hidden;
+      img {
+        height: 100%;
+        min-width: 300px;
+        max-width: 300px;
+        width: 100%;
+      }
+    }
+  }
+}
