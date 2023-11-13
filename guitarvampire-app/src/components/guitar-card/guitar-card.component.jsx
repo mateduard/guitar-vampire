@@ -10,7 +10,7 @@ const GuitarCard = ({ guitar }) => {
   const addGuitarToFavorites = () => {
     addItemToFavorites(guitar);
   };
-  console.log(favoriteItems);
+  // console.log(favoriteItems);
 
   return (
     <div className="guitar-card">
