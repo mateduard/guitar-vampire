@@ -1,7 +1,8 @@
+const back_properties = require('./config/back_properties')
 const express = require('express');
 const connectDB = require('./config/db');
 require('dotenv').config();
-const port = process.env.PORT || 5000;
+const back_port = back_properties.BACK_PORT;
 const cors = require('cors');
 const GuitarModel = require('./models/Guitar');
 const path = require('path');
@@ -32,6 +33,6 @@ app.get('/', (req, res) => {
 const guitarsRouter = require('./routes/guitars');
 app.use('/api/guitars', guitarsRouter);
 
-app.listen(port, () => {
-  console.log(`Server is running on port ${port}`);
+app.listen(back_port, () => {
+  console.log(`Server is running on port ${back_port}`);
 });
