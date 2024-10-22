@@ -19,11 +19,11 @@ app.use(express.json());
       'http://localhost:3000'], */
 
 app.use(
-  cors({
+  cors(/* {
     origin: ['http://localhost:5000',
         'http://localhost:3000'],
     credentials: true,
-  })
+  } */)
 );
 
 app.get('/', (req, res) => {
