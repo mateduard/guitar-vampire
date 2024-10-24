@@ -1,10 +1,12 @@
+// ENVIRONMENT VARIABLES CONFIGURATION FILE
+
 const front_properties = {
     // Backend server settings
-    BACK_PORT: process.env.BACK_PORT || 5000,
-    BACK_SERVICE: process.env.BACK_SERVICE,
+    BACK_PORT: import.meta.env.VITE_BACK_PORT || '5000',
+    BACK_SERVICE: import.meta.env.VITE_BACK_SERVICE || '',
 
     // Frontend server settings
-    FRONT_PORT: process.env.FRONT_PORT || 3000,
+    FRONT_PORT: import.meta.env.VITE_FRONT_PORT || '3000', // WATCH OUT, AS THE VARIABLE USED IN "vite.config.js" IS NOT CALLED FROM HERE, BUT FROM process.env IN THAT FILE, OTHERWISE IT IS UNDEFINED BECAUSE IT WOULD BE LOADED BEFORE VITE
   };
   
-  module.exports = front_properties;
+  export default front_properties;
