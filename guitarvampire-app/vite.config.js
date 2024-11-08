@@ -4,7 +4,8 @@ import dotenv from 'dotenv';
 
 dotenv.config();
 
-const front_port = process.env.VITE_FRONT_PORT; // !! THIS VARIABLE IS IMPORTED BEFORE VITE STARTS SO IT IS CALLED WITH PROCESS.ENV !!!!
+// dev port: 3000
+const front_port = process.env.VITE_FRONT_PORT || 3000; // !! THIS VARIABLE IS IMPORTED BEFORE VITE STARTS SO IT IS CALLED WITH PROCESS.ENV !!!!
 
 
 // https://vitejs.dev/config/
