@@ -1,0 +1,38 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: gv-front-deployment
+  labels:
+    app: gv-front
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: gv-front
+  template:
+    metadata:
+      labels:
+        app: gv-front
+    spec:
+      containers:
+      - name: gv-front
+        image: mateduard/k8s-cluster-front:v1.4.1
+        ports:
+        - name: http
+          containerPort: 80
+        resources:
+          requests:
+            memory: "200Mi"      # Minimum memory guaranteed to the container
+            cpu: "100m"          # Minimum CPU guaranteed (350 millicores, or 0.35 CPU)
+          limits:
+            memory: "250Mi"        # Maximum memory the container can use
+            cpu: "150m"
+        env:
+        - name: VITE_BACK_PORT
+          value: "5000"           # port service backend
+        - name: VITE_FRONT_PORT
+          value: "80"             # port service frontend
+        - name: VITE_BACK_SERVICE
+          value: 34.8.157.165     # ip static ingress
+        - name: VITE_FRONT_SERVICE
+          value: 34.8.157.165     # ip static ingress

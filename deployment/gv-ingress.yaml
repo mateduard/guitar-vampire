@@ -1,0 +1,30 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: gv-ingress
+  namespace: default
+  labels:
+    obiect: ingress
+spec:
+  defaultBackend:
+    service:
+      name: gv-front-service
+      port:
+        number: 80
+  rules:
+  - http:
+      paths:
+      - path: /api
+        pathType: Prefix
+        backend:
+          service:
+            name: gv-back-service
+            port:
+              number: 5000
+      - path: /
+        pathType: Prefix
+        backend:
+          service:
+            name: gv-front-service
+            port:
+              number: 80

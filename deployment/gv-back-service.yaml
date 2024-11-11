@@ -1,0 +1,15 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: gv-back-service
+  labels:
+    app: gv-back
+spec:
+  type: ClusterIP
+  selector:
+    app: gv-back
+  ports:
+    - name: http
+      port: 5000
+      targetPort: 5000
+      protocol: TCP
