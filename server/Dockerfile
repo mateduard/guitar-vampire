@@ -10,4 +10,6 @@ RUN npm install
 
 COPY . .
 
+RUN apk add curl
+
 CMD [ "npm", "start" ]
