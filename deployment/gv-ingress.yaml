@@ -6,11 +6,6 @@ metadata:
   labels:
     obiect: ingress
 spec:
-  defaultBackend:
-    service:
-      name: gv-front-service
-      port:
-        number: 80
   rules:
   - http:
       paths:

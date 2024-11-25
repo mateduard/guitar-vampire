@@ -29,10 +29,10 @@ spec:
             cpu: "150m" 
         env: 
         - name: BACK_PORT
-          value: "5000"
+          value: "80"           # port service backend (in this case, ingress public exposed port, as the requests are redirected by path and traffic rules)
         - name: FRONT_PORT
-          value: "80"
+          value: "80"             # port service frontend (in this case, ingress public exposed port, as the requests are redirected by path and traffic rules)
         - name: BACK_SERVICE
-          value: 34.8.157.165     # ip static ingress
+          value: 34.118.44.72     # ip static ingress
         - name: FRONT_SERVICE
-          value: 34.8.157.165     # ip static ingress
+          value: 34.118.44.72     # ip static ingress
