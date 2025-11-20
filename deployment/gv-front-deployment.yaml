@@ -16,7 +16,7 @@ spec:
     spec:
       containers:
       - name: gv-front
-        image: mateduard/k8s-cluster-front:v1.4.1
+        image: mateduard/k8s-cluster-front:1.5
         readinessProbe:
           httpGet:
             path: /

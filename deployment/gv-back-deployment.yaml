@@ -16,7 +16,7 @@ spec:
     spec:
       containers:
       - name: gv-back
-        image: mateduard/k8s-cluster-back:v1.4
+        image: mateduard/k8s-cluster-back:1.5
         ports:
         - name: http
           containerPort: 5000
