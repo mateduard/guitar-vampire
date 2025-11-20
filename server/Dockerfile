@@ -8,5 +8,6 @@ RUN npm install
 
 COPY . .
 RUN apk add curl
+RUN apk add mongodb-tools
 
 CMD [ "npm", "start" ]
