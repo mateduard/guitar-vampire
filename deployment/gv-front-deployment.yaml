@@ -51,6 +51,6 @@ spec:
         - name: VITE_FRONT_PORT
           value: "80"             # port service frontend (in this case, ingress public exposed port, as the requests are redirected by path and traffic rules)
         - name: VITE_BACK_SERVICE
-          value: 34.54.162.148     # ip static ingress
+          value: 20.13.206.85     # ip static ingress
         - name: VITE_FRONT_SERVICE
-          value: 34.54.162.148     # ip static ingress
+          value: 20.13.206.85     # ip static ingress
