@@ -6,6 +6,7 @@ metadata:
   labels:
     obiect: ingress
 spec:
+  ingressClassName: nginx
   rules:
   - http:
       paths:

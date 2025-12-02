@@ -1,0 +1,7 @@
+After creating the k8s cluster, execute:
+
+```
+helm repo add ingress-nginx https://kubernetes.github.io/ingress-nginx
+helm install nginx ingress-nginx/ingress-nginx --namespace ingress --create-namespace
+```
+Then apply the manifests.
