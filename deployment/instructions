@@ -1,8 +1,8 @@
-After creating the k8s cluster, execute:
+1. After creating the k8s cluster, execute:
 
 ```
 helm repo add ingress-nginx https://kubernetes.github.io/ingress-nginx
 helm install nginx ingress-nginx/ingress-nginx --namespace ingress --create-namespace
 ```
-Replace the Load Balancer IP from the deployment manifests (front + back) under `env` field with the one assigned by the cloud provider to the ingress' LB. 
-Then apply the manifests.
+2. Replace the Load Balancer IP from the deployment manifests (front + back) under `env` field with the one assigned by the cloud provider to the ingress' LB.
+3. Apply the deployment manifests again.
