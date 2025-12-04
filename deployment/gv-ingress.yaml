@@ -17,17 +17,17 @@ spec:
             name: gv-back-service
             port:
               number: 5000
-      - path: /
-        pathType: Prefix
-        backend:
-          service:
-            name: gv-front-service
-            port:
-              number: 80
       - path: /jenkins
         pathType: Prefix
         backend:
           service:
             name: jenkins-service
+            port:
+              number: 80
+      - path: /
+        pathType: Prefix
+        backend:
+          service:
+            name: gv-front-service
             port:
               number: 80
