@@ -42,3 +42,6 @@ spec:
         #   limits:
         #     memory: "250Mi"        # Maximum memory the container can use
         #     cpu: "150m"
+        env:
+        - name: JENKINS_OPTS
+          value: "--httpPort=8080 --prefix=/jenkins"
