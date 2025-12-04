@@ -17,24 +17,24 @@ spec:
       containers:
       - name: jenkins
         image: jenkins/jenkins:jdk21
-        readinessProbe:
-          httpGet:
-            path: /
-            port: 80
-          initialDelaySeconds: 25
-          periodSeconds: 20
-          timeoutSeconds: 15
-          successThreshold: 1
-          failureThreshold: 3
-        livenessProbe:
-          httpGet:
-            path: /
-            port: 80
-          initialDelaySeconds: 20
-          periodSeconds: 18
-          timeoutSeconds: 15
-          successThreshold: 1
-          failureThreshold: 3
+        # readinessProbe:
+        #   httpGet:
+        #     path: /
+        #     port: 80
+        #   initialDelaySeconds: 25
+        #   periodSeconds: 20
+        #   timeoutSeconds: 15
+        #   successThreshold: 1
+        #   failureThreshold: 3
+        # livenessProbe:
+        #   httpGet:
+        #     path: /
+        #     port: 80
+        #   initialDelaySeconds: 20
+        #   periodSeconds: 18
+        #   timeoutSeconds: 15
+        #   successThreshold: 1
+        #   failureThreshold: 3
         ports:
         - name: http
           containerPort: 80
