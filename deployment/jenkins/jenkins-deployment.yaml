@@ -1,7 +1,7 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: jenkins-deployment
+  name: jenkins
   labels:
     app: jenkins
 spec:
@@ -17,6 +17,8 @@ spec:
       containers:
       - name: jenkins
         image: jenkins/jenkins:jdk21
+        securityContext:
+          fsGroup: 1000
         volumeMounts:
         - name: jenkins-storage
           mountPath: /var/jenkins_home
