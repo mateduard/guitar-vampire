@@ -13,7 +13,7 @@ const app = express();
 app.use(express.static(path.join(__dirname, '../guitarvampire-app/public')));
 app.use(express.json());
 
-// ATENTIE , MAI JOS ERA :  + am modificat in guitarConstants.js => era http://localhost:5000
+// ATENTIE, MAI JOS ERA :  + am modificat in guitarConstants.js => era http://localhost:5000
 /* origin: ['http://localhost:5000',
       'http://localhost:3000'], */
 
