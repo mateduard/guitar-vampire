@@ -17,6 +17,9 @@ spec:
       containers:
       - name: jenkins
         image: jenkins/jenkins:jdk21
+        volumeMounts:
+        - name: jenkins-storage
+          mountPath: /var/jenkins_home
         # readinessProbe:
         #   httpGet:
         #     path: /
@@ -45,3 +48,7 @@ spec:
         env:
         - name: JENKINS_OPTS
           value: "--httpPort=8080 --prefix=/jenkins"
+      volumes:
+      - name: jenkins-storage
+        persistentVolumeClaim:
+          claimName: jenkins-pvc
