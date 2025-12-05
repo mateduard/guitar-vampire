@@ -15,7 +15,7 @@ spec:
         app: jenkins
     spec:
       securityContext:
-        fsGroup: 1000
+        fsGroup: 1000   # give access to jenkins user on the mounted PVC 
       containers:
       - name: jenkins
         image: jenkins/jenkins:jdk21
