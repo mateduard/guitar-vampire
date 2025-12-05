@@ -1,7 +1,7 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: gv-back-deployment
+  name: gv-back
   labels:
     app: gv-back
 spec:
