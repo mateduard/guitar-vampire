@@ -1,0 +1,52 @@
+- subscription name: abc
+
+- resource group: create a new one with name "GResursa1"
+
+- cluster name: clust1
+
+- region: north europe
+
+- fleet manager: none
+
+- AZ: none
+
+- aks pricing tier: Free
+
+- Kubernetes version: 1.33.5
+
+- Automatic upgrade: Disabled
+
+- Node security channel type: none
+
+- Authentication and Authorization: local accounts with kubernetes RBAC
+
+- Private cluster: disabled
+
+- Network: Azure CNI Overlay
+
+- DNS name: clust1-dns
+
+- network policy: none
+
+- Azure Policy: disabled
+
+- Prometheus metrics: disabled
+
+- Grafana: disabled
+
+- Alerts disabled
+
+- OIDC disabled
+
+- Workload identity disabled
+
+- Image Cleaner: disabled
+
+
+
+
+
+
+
+
+
