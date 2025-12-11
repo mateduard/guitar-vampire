@@ -17,12 +17,13 @@ resource "azurerm_kubernetes_cluster" "aks" {
   dns_prefix          = "clust1-dns"
 
   kubernetes_version  = "1.33.5"
+  node_os_upgrade_channel
+  sku_tier            = "Free"
 
   identity {
     type = "SystemAssigned"
   }
 
-  sku_tier            = "Free"
 
   # Authentication with local accounts and RBAC
 
