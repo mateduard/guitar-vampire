@@ -17,6 +17,10 @@ resource "azurerm_kubernetes_cluster" "aks" {
 
   kubernetes_version  = "1.33.5"
 
+  identity {
+    type = "SystemAssigned"
+  }
+
   sku_tier            = "Free"
 
   # Authentication with local accounts and RBAC
@@ -24,7 +28,6 @@ resource "azurerm_kubernetes_cluster" "aks" {
   # Network configuration
   network_profile {
     network_plugin    = "azure"
-    network_policy    = "none"
   }
 
   # Disable private cluster
