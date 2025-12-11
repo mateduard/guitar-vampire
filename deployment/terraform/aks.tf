@@ -17,7 +17,7 @@ resource "azurerm_kubernetes_cluster" "aks" {
   dns_prefix          = "clust1-dns"
 
   kubernetes_version  = "1.33.5"
-  node_os_upgrade_channel
+  node_os_upgrade_channel = "None"
   sku_tier            = "Free"
 
   identity {
