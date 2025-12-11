@@ -1,5 +1,5 @@
 pipeline {
-    // agent { label 'master' }
+    agent any
     triggers { githubPush() }
     parameters {
         booleanParam(name: 'createImage', defaultValue: 'false', description: 'Should I create image?')
