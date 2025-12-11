@@ -24,9 +24,6 @@ resource "azurerm_kubernetes_cluster" "aks" {
     type = "SystemAssigned"
   }
 
-
-  # Authentication with local accounts and RBAC
-
   # Network configuration
   network_profile {
     network_plugin    = "azure"
