@@ -4,10 +4,13 @@ pipeline {
     parameters {
         booleanParam(name: 'createImage', defaultValue: 'false', description: 'Should I create image?')
     }
+    environment {
+        docker_creds = credentials('DOCKERHUB_CREDS')
+    }
     stages {
-        stage('Check if code is cloned') {
+        stage('Debug Stage') {
             steps {
-                echo 'Hello World!'
+                echo "${docker_creds}"
                 sh 'ls'
             }
         }
