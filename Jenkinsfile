@@ -1,6 +1,18 @@
 pipeline {
     agent any
+
+    options {
+        // Keep only 5 builds
+        buildDiscarder(logRotator(
+            numToKeepStr: '5',           // Keep 5 builds
+            daysToKeepStr: '',           // No day limit
+            artifactNumToKeepStr: '5',   // Keep artifacts for 5 builds
+            artifactDaysToKeepStr: ''    // No day limit for artifacts
+        ))
+    }
+    
     triggers { githubPush() }
+    
     parameters {
         booleanParam(name: 'createFrontImage', defaultValue: 'false', description: 'Should I create frontend image?')
         booleanParam(name: 'createBackImage', defaultValue: 'false', description: 'Should I create backend image?')
