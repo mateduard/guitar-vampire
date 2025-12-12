@@ -12,6 +12,7 @@ pipeline {
             steps {
                 echo "${docker_creds}"
                 sh 'ls'
+                sh 'pwd'
                 echo "${JENKINS_HOME}"
             }
         }
