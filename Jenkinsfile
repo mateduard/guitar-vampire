@@ -14,6 +14,7 @@ pipeline {
                 sh 'ls'
                 sh 'pwd'
                 echo "${JENKINS_HOME}"
+                echo "${WORKSPACE}"
             }
         }
         stage('Create and push image to Dockerhub') {
