@@ -18,7 +18,9 @@ spec:
         fsGroup: 1000   # give access to jenkins user on the mounted PVC 
       containers:
       - name: jenkins
-        image: jenkins/jenkins:jdk21
+        # temporary switched to an image with docker installed
+        # image: jenkins/jenkins:jdk21
+        image: mateduard/jenkins-custom
         volumeMounts:
         - name: jenkins-storage
           mountPath: /var/jenkins_home
