@@ -12,6 +12,7 @@ pipeline {
             steps {
                 echo "${docker_creds}"
                 sh 'ls'
+                echo "${JENKINS_HOME}"
             }
         }
         stage('Create and push image to Dockerhub') {
