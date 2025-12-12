@@ -32,6 +32,8 @@ pipeline {
                 echo "${JENKINS_HOME}"
                 echo "${WORKSPACE}"
                 echo "PATH: $PATH"
+                sh 'apt-get update && apt-get install -y docker.io'
+                sh 'jenkins-plugin-cli --plugins "docker-workflow docker-plugin"'
                 sh 'docker --version'
             }
         }

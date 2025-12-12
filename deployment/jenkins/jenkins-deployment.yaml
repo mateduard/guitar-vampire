@@ -19,8 +19,8 @@ spec:
       containers:
       - name: jenkins
         # temporary switched to an image with docker installed
-        # image: jenkins/jenkins:jdk21
-        image: mateduard/jenkins-custom
+        image: jenkins/jenkins:jdk21
+        # image: mateduard/jenkins-custom:1.0
         volumeMounts:
         - name: jenkins-storage
           mountPath: /var/jenkins_home
