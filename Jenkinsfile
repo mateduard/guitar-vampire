@@ -17,8 +17,8 @@ pipeline {
         booleanParam(name: 'createFrontImage', defaultValue: 'false', description: 'Should I create frontend image?')
         booleanParam(name: 'createBackImage', defaultValue: 'false', description: 'Should I create backend image?')
         booleanParam(name: 'deployImages', defaultValue: 'false', description: 'Should I deploy the created images?')
-        string(name: 'backTag', defaultValue: 'staging', description: 'Tag to be used if backend image is created.')
-        string(name: 'frontTag', defaultValue: 'staging', description: 'Tag to be used if frontend image is created.')
+        string(name: 'backImgTag', defaultValue: '', description: 'Tag to be used if backend image is created.')
+        string(name: 'frontImgTag', defaultValue: '', description: 'Tag to be used if frontend image is created.')
     }
     environment {
         docker_creds = credentials('DOCKERHUB_CREDS')
@@ -40,7 +40,7 @@ pipeline {
             steps {
                 echo 'S-a intrat in imagine FRONT'
                 script {
-                image_tag = "${params.frontTag}"
+                image_tag = "${params.frontImgTag}"
                 image_name = "mateduard/k8s-cluster-front"
                     docker.withRegistry('https://index.docker.io/v1/', 'DOCKERHUB_CREDS') {
                         echo 'Logged in to Docker Hub'
@@ -55,7 +55,7 @@ pipeline {
             }
             steps {
                 script {
-                image_tag = "${params.backTag}"
+                image_tag = "${params.backImgTag}"
                 image_name = "mateduard/k8s-cluster-back"
                     docker.withRegistry('https://index.docker.io/v1/', 'DOCKERHUB_CREDS') {
                         echo 'Logged in to Docker Hub'
