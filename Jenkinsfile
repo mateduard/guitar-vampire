@@ -40,6 +40,8 @@ pipeline {
         stage('Create Back image and push to Dockerhub') {
             when {
                 expression { params.createBackImage }
+            }
+            steps {
                 image_tag = "${backTag}"
                 image_name = "mateduard/k8s-cluster-back"
                 script {
@@ -49,8 +51,6 @@ pipeline {
                         front_image.push()
                     }
                 }
-            }
-            steps {
                 echo 'S-a intrat in imagine BACK'
                 sh 'ls'
             }
