@@ -13,13 +13,13 @@ pipeline {
 
     triggers { githubPush() }
     
-    parameters {
-        // booleanParam(name: 'createFrontImage', defaultValue: 'false', description: 'Should I create frontend image?')
-        // string(name: 'frontImgTag', defaultValue: '', description: 'Tag to be used if frontend image is created.')
-        // booleanParam(name: 'createBackImage', defaultValue: 'false', description: 'Should I create backend image?')
-        // string(name: 'backImgTag', defaultValue: '', description: 'Tag to be used if backend image is created.')
-        // booleanParam(name: 'deployImages', defaultValue: 'false', description: 'Should I deploy the created images?')
-    }
+    // parameters {
+    //     booleanParam(name: 'createFrontImage', defaultValue: 'false', description: 'Should I create frontend image?')
+    //     string(name: 'frontImgTag', defaultValue: '', description: 'Tag to be used if frontend image is created.')
+    //     booleanParam(name: 'createBackImage', defaultValue: 'false', description: 'Should I create backend image?')
+    //     string(name: 'backImgTag', defaultValue: '', description: 'Tag to be used if backend image is created.')
+    //     booleanParam(name: 'deployImages', defaultValue: 'false', description: 'Should I deploy the created images?')
+    // }
     environment {
         docker_creds = credentials('DOCKERHUB_CREDS')
     }
