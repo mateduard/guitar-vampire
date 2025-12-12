@@ -44,7 +44,8 @@ pipeline {
                 image_name = "mateduard/k8s-cluster-front"
                     docker.withRegistry('https://index.docker.io/v1/', 'DOCKERHUB_CREDS') {
                         echo 'Logged in to Docker Hub'
-                        front_image = docker.build("${image_name}:${image_tag}", "--no-cache .")
+                        front_image = docker.build("${image_name}:${image_tag}", "--no-cache ${WORKSPACE}/guitarvampire-app")
+                        front_image.push()
                     }
                 }
             }
@@ -59,8 +60,8 @@ pipeline {
                 image_name = "mateduard/k8s-cluster-back"
                     docker.withRegistry('https://index.docker.io/v1/', 'DOCKERHUB_CREDS') {
                         echo 'Logged in to Docker Hub'
-                        front_image = docker.build("${image_name}:${image_tag}", "--no-cache .")
-                        front_image.push()
+                        back_image = docker.build("${image_name}:${image_tag}", "--no-cache ${WORKSPACE}/server")
+                        back_image.push()
                     }
                 }
                 echo 'S-a intrat in imagine BACK'
