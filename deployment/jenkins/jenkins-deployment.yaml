@@ -19,10 +19,10 @@ spec:
       containers:
       - name: jenkins
         # temporary switched to an image with docker installed
-        image: jenkins/jenkins:jdk21
-        # image: mateduard/jenkins-custom:1.0
+        # image: jenkins/jenkins:jdk21
+        image: mateduard/jenkins-custom:1.0
         volumeMounts:
-        - name: jenkins-storage
+        - name: jenkins-storage-2
           mountPath: /var/jenkins_home
         # readinessProbe:
         #   httpGet:
@@ -53,6 +53,6 @@ spec:
         - name: JENKINS_OPTS
           value: "--httpPort=8080 --prefix=/jenkins"
       volumes:
-      - name: jenkins-storage
+      - name: jenkins-storage-2
         persistentVolumeClaim:
-          claimName: jenkins-pvc
+          claimName: jenkins-pvc-2
