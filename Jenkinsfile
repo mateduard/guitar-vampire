@@ -10,7 +10,7 @@ pipeline {
             artifactDaysToKeepStr: ''    // No day limit for artifacts
         ))
     }
-    
+
     triggers { githubPush() }
     
     parameters {
@@ -39,9 +39,9 @@ pipeline {
             }
             steps {
                 echo 'S-a intrat in imagine FRONT'
+                script {
                 image_tag = "${params.frontTag}"
                 image_name = "mateduard/k8s-cluster-front"
-                script {
                     docker.withRegistry('https://index.docker.io/v1/', 'DOCKERHUB_CREDS') {
                         echo 'Logged in to Docker Hub'
                         front_image = docker.build("${image_name}:${image_tag}", "--no-cache .")
@@ -54,9 +54,9 @@ pipeline {
                 expression { params.createBackImage }
             }
             steps {
+                script {
                 image_tag = "${params.backTag}"
                 image_name = "mateduard/k8s-cluster-back"
-                script {
                     docker.withRegistry('https://index.docker.io/v1/', 'DOCKERHUB_CREDS') {
                         echo 'Logged in to Docker Hub'
                         front_image = docker.build("${image_name}:${image_tag}", "--no-cache .")
