@@ -31,6 +31,8 @@ pipeline {
                 sh 'pwd'
                 echo "${JENKINS_HOME}"
                 echo "${WORKSPACE}"
+                echo "PATH: $PATH"
+                docker --version
             }
         }
         stage('Create Front image and push to Dockerhub') {
