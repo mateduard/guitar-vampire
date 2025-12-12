@@ -27,7 +27,7 @@ pipeline {
             }
             steps {
                 echo 'S-a intrat in imagine FRONT'
-                image_tag = "${frontTag}"
+                image_tag = "${params.frontTag}"
                 image_name = "mateduard/k8s-cluster-front"
                 script {
                     docker.withRegistry('https://index.docker.io/v1/', 'DOCKERHUB_CREDS') {
@@ -42,7 +42,7 @@ pipeline {
                 expression { params.createBackImage }
             }
             steps {
-                image_tag = "${backTag}"
+                image_tag = "${params.backTag}"
                 image_name = "mateduard/k8s-cluster-back"
                 script {
                     docker.withRegistry('https://index.docker.io/v1/', 'DOCKERHUB_CREDS') {
