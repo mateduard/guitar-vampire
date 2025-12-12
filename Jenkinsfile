@@ -2,7 +2,11 @@ pipeline {
     agent any
     triggers { githubPush() }
     parameters {
-        booleanParam(name: 'createImage', defaultValue: 'false', description: 'Should I create image?')
+        booleanParam(name: 'createFrontImage', defaultValue: 'false', description: 'Should I create frontend image?')
+        booleanParam(name: 'createBackImage', defaultValue: 'false', description: 'Should I create backend image?')
+        booleanParam(name: 'deployImages', defaultValue: 'false', description: 'Should I deploy the created images?')
+        string(name: 'backTag', defaultValue: 'staging', description: 'Tag to be used if backend image is created.')
+        string(name: 'frontTag', defaultValue: 'staging', description: 'Tag to be used if frontend image is created.')
     }
     environment {
         docker_creds = credentials('DOCKERHUB_CREDS')
@@ -17,15 +21,46 @@ pipeline {
                 echo "${WORKSPACE}"
             }
         }
-        stage('Create and push image to Dockerhub') {
+        stage('Create Front image and push to Dockerhub') {
+            when {
+                expression { params.createFrontImage }
+            }
             steps {
-                echo 'Hello World!'
+                echo 'S-a intrat in imagine FRONT'
+                image_tag = "${frontTag}"
+                image_name = "mateduard/k8s-cluster-front"
+                script {
+                    docker.withRegistry('https://index.docker.io/v1/', 'DOCKERHUB_CREDS') {
+                        echo 'Logged in to Docker Hub'
+                        front_image = docker.build("${image_name}:${image_tag}", "--no-cache .")
+                    }
+                }
+            }
+        }
+        stage('Create Back image and push to Dockerhub') {
+            when {
+                expression { params.createBackImage }
+                image_tag = "${backTag}"
+                image_name = "mateduard/k8s-cluster-back"
+                script {
+                    docker.withRegistry('https://index.docker.io/v1/', 'DOCKERHUB_CREDS') {
+                        echo 'Logged in to Docker Hub'
+                        front_image = docker.build("${image_name}:${image_tag}", "--no-cache .")
+                        front_image.push()
+                    }
+                }
+            }
+            steps {
+                echo 'S-a intrat in imagine BACK'
                 sh 'ls'
             }
         }
-        stage('Create image') {
+        stage('Deploy created images') {
+            when {
+                expression { params.deployImages }
+            }
             steps {
-                echo 'Hello World!'
+                echo 'S-a intrat in deploy'
                 sh 'ls'
             }
         }
