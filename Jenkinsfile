@@ -32,7 +32,7 @@ pipeline {
                 echo "${JENKINS_HOME}"
                 echo "${WORKSPACE}"
                 echo "PATH: $PATH"
-                sh 'docker --version'
+                // sh 'docker --version'
             }
         }
         stage('Create Front image and push to Dockerhub') {
