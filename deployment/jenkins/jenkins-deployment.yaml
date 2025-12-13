@@ -18,11 +18,11 @@ spec:
         fsGroup: 1000   # give access to jenkins user on the mounted PVC 
       containers:
       - name: jenkins
-        # temporary switched to an image with docker installed
-        # image: jenkins/jenkins:jdk21
-        image: mateduard/jenkins-custom:1.0
+        # temporary switched to a custom image with docker installed
+        image: jenkins/jenkins:jdk21
+        # image: mateduard/jenkins-custom:1.0
         volumeMounts:
-        - name: jenkins-storage-2
+        - name: jenkins-storage
           mountPath: /var/jenkins_home
         # readinessProbe:
         #   httpGet:
@@ -53,6 +53,6 @@ spec:
         - name: JENKINS_OPTS
           value: "--httpPort=8080 --prefix=/jenkins"
       volumes:
-      - name: jenkins-storage-2
+      - name: jenkins-storage
         persistentVolumeClaim:
-          claimName: jenkins-pvc-2
+          claimName: jenkins-pvc
