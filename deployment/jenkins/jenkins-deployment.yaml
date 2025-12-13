@@ -14,6 +14,7 @@ spec:
       labels:
         app: jenkins
     spec:
+      serviceAccountName: jenkins
       securityContext:
         fsGroup: 1000   # give access to jenkins user on the mounted PVC 
       containers:
