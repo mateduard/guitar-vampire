@@ -16,12 +16,10 @@ spec:
     spec:
       serviceAccountName: jenkins
       securityContext:
-        fsGroup: 1000   # give access to jenkins user on the mounted PVC 
+        fsGroup: 1000   # All mounted volumes get group ownership set to 1000 (jenkins image has a layer where jenkins user is added to group 1000)
       containers:
       - name: jenkins
-        # temporary switched to a custom image with docker installed
         image: jenkins/jenkins:jdk21
-        # image: mateduard/jenkins-custom:1.0
         volumeMounts:
         - name: jenkins-storage
           mountPath: /var/jenkins_home
