@@ -26,12 +26,19 @@ pipeline {
     stages {
         stage('Debug Stage') {
             steps {
-                echo "${docker_creds}"
-                sh 'ls'
-                sh 'pwd'
-                echo "${JENKINS_HOME}"
-                echo "${WORKSPACE}"
-                echo "PATH: $PATH"
+                script{
+                    echo "${docker_creds}"
+                    sh 'ls'
+                    sh 'pwd'
+                    echo "${JENKINS_HOME}"
+                    echo "${WORKSPACE}"
+                    echo "PATH: $PATH"
+                    withCredentials([usernamePassword(credentialsId: 'DOCKERHUB_CREDS', usernameVariable: 'usr', passwordVariable: 'pass')]) {
+                        sh "echo $usr"
+                        sh "echo $pass"
+                    }
+                }
+                
                 // sh 'docker --version'
             }
         }
