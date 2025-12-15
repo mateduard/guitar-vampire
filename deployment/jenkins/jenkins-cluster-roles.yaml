@@ -49,4 +49,4 @@ roleRef:
 subjects:
 - kind: ServiceAccount
   name: jenkins
-  namespace: default  # Change to your Jenkins namespace
+  namespace: default
