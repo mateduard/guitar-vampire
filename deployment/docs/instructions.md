@@ -6,5 +6,6 @@
 3. Apply the deployment manifests again.
 
 Notes:
+- For jenkins instructions, see `jenkins_instructions.md`
 - Original nginx controller manifest: https://raw.githubusercontent.com/kubernetes/ingress-nginx/controller-v1.8.2/deploy/static/provider/cloud/deploy.yaml
 - Deployment didn't work on ARM architecture k8s VM workers when tried. Worked on D2ls_v5 VM in MS Azure.
