@@ -27,16 +27,19 @@ apiVersion: v1
 kind: Pod
 spec:
   containers:
-  - name: docker
-    image: docker:latest
+  - name: maven
+    image: maven:3.8.1-jdk-11
+    command:
+    - cat
+    tty: true
 """
         }
     }
     stages {
-        stage('ECHO?') {
+        stage('Test') {
             steps {
-                container('docker') {
-                    echo "I did it!"
+                container('maven') {
+                    sh 'mvn --version'
                 }
             }
         }

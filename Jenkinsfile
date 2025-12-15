@@ -1,5 +1,10 @@
 pipeline {
-    agent any
+    agent {
+        kubernetes {
+            label 'k8s-maven'
+            defaultContainer 'maven'
+        }
+    }
 
     options {
         // Keep only 5 builds
