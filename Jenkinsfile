@@ -49,6 +49,8 @@ pipeline {
             steps {
                 container('kubectl'){
                     script{
+                        sh 'pwd'
+                        sh 'kubectl version'
                         sh 'kubectl get pods'
                     }
                 }
