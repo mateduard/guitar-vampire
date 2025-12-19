@@ -56,9 +56,8 @@ pipeline {
                     mv kubectl /usr/local/bin/
                     '''
                     sh 'kubectl get pods'
-                    }
-                }                
-            }
+                }
+            }                
         }
         stage('Create Front image and push to Dockerhub') {
             when {
