@@ -47,7 +47,7 @@ pipeline {
         }
         stage('Add kubectl') {
             steps {
-                container('kubectl-container'){
+                container('k8s-container'){
                     script{
                         sh 'pwd'
                         sh 'kubectl version'
