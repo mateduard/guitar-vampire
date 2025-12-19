@@ -41,11 +41,23 @@ pipeline {
                     withCredentials([usernamePassword(credentialsId: 'DOCKERHUB_CREDS', usernameVariable: 'usr', passwordVariable: 'pass')]) {
                         sh "echo $usr"
                         sh "echo $pass"
-                        sh "kubectl get pods"
                     }
                 }
-                
-                // sh 'docker --version'
+            }
+        }
+        stage('Add kubectl') {
+            steps {
+                script{
+                    sh '''
+                    # Install curl and kubectl
+                    apk add --no-cache curl
+                    curl -LO "https://dl.k8s.io/release/$(curl -L -s https://dl.k8s.io/release/stable.txt)/bin/linux/amd64/kubectl"
+                    chmod +x kubectl
+                    mv kubectl /usr/local/bin/
+                    '''
+                    sh 'kubectl get pods'
+                    }
+                }                
             }
         }
         stage('Create Front image and push to Dockerhub') {
