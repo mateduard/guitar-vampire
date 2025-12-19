@@ -47,15 +47,10 @@ pipeline {
         }
         stage('Add kubectl') {
             steps {
-                script{
-                    sh '''
-                    # Install curl and kubectl
-                    apk add --no-cache curl
-                    curl -LO "https://dl.k8s.io/release/$(curl -L -s https://dl.k8s.io/release/stable.txt)/bin/linux/amd64/kubectl"
-                    chmod +x kubectl
-                    mv kubectl /usr/local/bin/
-                    '''
-                    sh 'kubectl get pods'
+                container('kubectl'){
+                    script{
+                        sh 'kubectl get pods'
+                    }
                 }
             }                
         }
