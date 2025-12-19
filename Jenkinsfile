@@ -2,7 +2,7 @@ pipeline {
     agent {
         kubernetes {
             inheritFrom 'kaniko-agent'
-            defaultContainer 'kaniko'
+            defaultContainer 'kubectl'
         }
     }
 
