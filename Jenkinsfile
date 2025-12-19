@@ -1,7 +1,7 @@
 pipeline {
     agent {
         kubernetes {
-            inheritFrom 'kaniko-agent'
+            inheritFrom 'kaniko_k8s_agent'
             defaultContainer 'kaniko'
         }
     }
@@ -47,7 +47,7 @@ pipeline {
         }
         stage('Add kubectl') {
             steps {
-                container('k8s-container'){
+                container('k8s'){
                     script{
                         sh 'pwd'
                         sh 'kubectl version'
