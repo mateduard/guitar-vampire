@@ -41,6 +41,7 @@ pipeline {
                     withCredentials([usernamePassword(credentialsId: 'DOCKERHUB_CREDS', usernameVariable: 'usr', passwordVariable: 'pass')]) {
                         sh "echo $usr"
                         sh "echo $pass"
+                        sh "kubectl get pods"
                     }
                 }
                 
