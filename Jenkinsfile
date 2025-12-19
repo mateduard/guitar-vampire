@@ -1,11 +1,10 @@
 pipeline {
-    agent {
+    agent any
         // kubernetes {
         //     inheritFrom 'kaniko-agent'
         //     defaultContainer 'kaniko'
         // }
-        any
-    }
+    
 
     options {
         // Keep only 5 builds
