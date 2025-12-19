@@ -33,19 +33,33 @@ pipeline {
             steps {
                 script{
                     echo "${docker_creds}"
-                    sh 'ls'
                     sh 'pwd'
                     echo "${JENKINS_HOME}"
-                    echo "${WORKSPACE}"
                     echo "PATH: $PATH"
-                    withCredentials([usernamePassword(credentialsId: 'DOCKERHUB_CREDS', usernameVariable: 'usr', passwordVariable: 'pass')]) {
-                        sh "echo $usr"
-                        sh "echo $pass"
-                    }
+                    withCredentials([usernamePassword(credentialsId: 'DOCKERHUB_CREDS', usernameVariable: 'docker_usr', passwordVariable: 'docker_pass')]) {
+                            sh '''
+                            # Create docker config directory
+                                mkdir -p /kaniko/.docker
+                                # Make sure the credentials are properly taken:
+                                echo "UTILIZATOR: $docker_usr"
+                                # Create docker config.json with credentials
+                                cat > /kaniko/.docker/config.json << EOF
+{
+  "auths": {
+    "https://index.docker.io/v1/": {
+      "username": "$docker_usr",
+      "password": "$docker_pass",
+      "auth": "$(echo -n "$docker_usr:$docker_pass" | base64)"
+    }
+  }
+}
+EOF
+                        }
+                        '''
                 }
             }
         }
-        stage('Add kubectl') {
+        stage('Create k8s secrets') {
             steps {
                 container('k8s'){
                     script{
