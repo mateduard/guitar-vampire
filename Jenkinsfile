@@ -1,8 +1,8 @@
 pipeline {
     agent {
         kubernetes {
-            inheritFrom 'k8s-maven'
-            defaultContainer 'maven'
+            inheritFrom 'kaniko-agent'
+            defaultContainer 'kaniko'
         }
     }
 
