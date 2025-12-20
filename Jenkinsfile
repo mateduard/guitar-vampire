@@ -58,7 +58,7 @@ pipeline {
                             echo "Secret 'docker-creds' does not exist, creating it. Please re-run the job after"
                             currentBuild.result = 'SUCCESS'
                             currentBuild.description = "Stopped: Secret 'docker-creds' exists"
-                            return
+                            error("Pipeline stopped successfully by user request")
                         }
                     }
                 }
