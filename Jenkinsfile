@@ -28,6 +28,16 @@ pipeline {
     environment {
         docker_creds = credentials('DOCKERHUB_CREDS')
     }
+
+    def dockerSecretExists(){
+        def exists = sh(
+            script: "kubectl get secret docker_creds --ignore-not-found=true -o name",
+            returnStdout: true
+        ).trim()
+
+        return exists != ""
+    }
+
     stages {
         stage('Debug Stage') {
             steps {
@@ -36,37 +46,24 @@ pipeline {
                     sh 'pwd'
                     echo "${JENKINS_HOME}"
                     echo "PATH: $PATH"
-                    withCredentials([usernamePassword(credentialsId: 'DOCKERHUB_CREDS', usernameVariable: 'docker_usr', passwordVariable: 'docker_pass')]) {
-                            sh '''
-                            # Create docker config directory
-                                mkdir -p /kaniko/.docker
-                                # Make sure the credentials are properly taken:
-                                echo "UTILIZATOR: $docker_usr"
-                                # Create docker config.json with credentials
-                                cat > /kaniko/.docker/config.json << EOF
-{
-  "auths": {
-    "https://index.docker.io/v1/": {
-      "username": "$docker_usr",
-      "password": "$docker_pass",
-      "auth": "$(echo -n "$docker_usr:$docker_pass" | base64)"
-    }
-  }
-}
-EOF
-                        }
-                        '''
-                    }
                 }
             }
         }
-        stage('Create k8s secrets') {
+        stage('Check and create k8s docker secret') {
             steps {
                 container('k8s'){
                     script{
                         sh 'pwd'
                         sh 'kubectl version'
                         sh 'kubectl get pods'
+                        if (dockerSecretExists()) {
+                            echo "Secret 'docker_creds' exists, stopping pipeline"
+                            currentBuild.result = 'SUCCESS'
+                            currentBuild.description = "Stopped: Secret 'docker_creds' exists"
+                            return
+                        } else {
+                            echo "Secret 'docker_creds' does not exist, continuing"
+                        }
                     }
                 }
             }                
