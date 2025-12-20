@@ -86,6 +86,8 @@ pipeline {
                     sh 'pwd'
                     echo "${JENKINS_HOME}"
                     echo "PATH: $PATH"
+                    // kaniko template command for Dockerfile:
+                    // executor --dockerfile=Dockerfile --destination=mateduard/test-kaniko:1.0 --context=.
                 }
             }
         }
