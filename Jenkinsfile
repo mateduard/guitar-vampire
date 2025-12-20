@@ -54,7 +54,6 @@ pipeline {
                     script{
                         if (dockerSecretExists()) {
                             echo "Secret 'docker-creds' exists, continuing pipeline"
-                            sh 'cp /kaniko/.docker/.dockerconfigjson /kaniko/.docker/config.json'
                             sh 'echo "Starting investigation hold..." && sleep 1000 && echo "Investigation hold complete"'
                         } else {
                             withCredentials([usernamePassword(credentialsId: 'DOCKERHUB_CREDS', 

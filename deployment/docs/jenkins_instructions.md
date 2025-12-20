@@ -16,7 +16,7 @@
         Docker image: jenkins/inbound-agent:latest
         Working directory: /home/jenkins/agent
         - Name: kaniko
-        Docker image: jenkins/inbound-agent:latest
+        Docker image: gcr.io/kaniko-project/executor:debug
         - Name: k8s
         Docker image: alpine/k8s:1.28.4
 
