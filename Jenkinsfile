@@ -33,15 +33,14 @@ pipeline {
         string(name: 'backImgTag', defaultValue: '', description: 'Tag to be used if backend image is created.')
         booleanParam(name: 'deployImages', defaultValue: 'false', description: 'Should I deploy the created images?')
     }
-    environment {
-        docker_creds = credentials('DOCKERHUB_CREDS')
-    }
+    // environment {
+    //     docker_creds = credentials('DOCKERHUB_CREDS')
+    // }
 
     stages {
         stage('Debug Stage') {
             steps {
                 script{
-                    echo "${docker_creds}"
                     sh 'pwd'
                     echo "${JENKINS_HOME}"
                     echo "PATH: $PATH"
@@ -55,11 +54,21 @@ pipeline {
                         if (dockerSecretExists()) {
                             echo "Secret 'docker-creds' exists, continuing pipeline"
                         } else {
-                            echo "Secret 'docker-creds' does not exist, creating it. Please re-run the job after"
+                            withCredentials([usernamePassword(credentialsId: 'DOCKERHUB_CREDS', 
+                                        dockerUsr: 'DOCKER_USER', 
+                                        dockerPass: 'DOCKER_PASS')]) {
+                            sh '''
+                            kubectl create secret docker-registry docker-registry-secret \
+                                --docker-server=https://index.docker.io/v1/ \
+                                --docker-username=$dockerUsr \
+                                --docker-password=$dockerPass
+                            '''
+                            }
+
+                            echo "Secret 'docker-creds' does NOT exist, creating it. Please re-run the job after"
                             currentBuild.result = 'SUCCESS'
-                            currentBuild.description = "Stopped: Secret 'docker-creds' exists"
-                            // error("Pipeline stopped successfully by user request")
-                            throw new Exception("EARLY_SUCCESS_EXIT")
+                            currentBuild.description = "Docker secret does NOT exist! Re-run the job!"
+                            throw new Exception("NO_ERRORS_RUN_JOB_AGAIN")
                         }
                     }
                 }
@@ -68,7 +77,6 @@ pipeline {
         stage('Debug Stage 2') {
             steps {
                 script{
-                    echo "${docker_creds}"
                     sh 'pwd'
                     echo "${JENKINS_HOME}"
                     echo "PATH: $PATH"
