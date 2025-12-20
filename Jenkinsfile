@@ -15,6 +15,7 @@ pipeline {
     }
 
     options {
+        disableConcurrentBuilds()        // Limit concurrent builds to 1
         // Keep only 5 builds
         buildDiscarder(logRotator(
             numToKeepStr: '5',           // Keep 5 builds
