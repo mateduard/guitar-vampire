@@ -54,7 +54,7 @@ pipeline {
                     script{
                         if (dockerSecretExists()) {
                             echo "Secret 'docker-creds' exists, continuing pipeline"
-                            sh 'echo "Starting investigation hold..." && sleep 600 && echo "Investigation hold complete"'
+                            sh 'echo "Starting investigation hold..." && sleep 1000 && echo "Investigation hold complete"'
                         } else {
                             withCredentials([usernamePassword(credentialsId: 'DOCKERHUB_CREDS', 
                                         usernameVariable: 'dockerUsr', 
@@ -65,6 +65,7 @@ pipeline {
                                 --docker-server=https://index.docker.io/v1/ \
                                 --docker-username=$dockerUsr \
                                 --docker-password=$dockerPass
+                                --docker-email=example@yahoo.com
                             '''
                             }
 
