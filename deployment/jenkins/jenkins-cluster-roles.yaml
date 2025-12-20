@@ -20,7 +20,7 @@ rules:
 # Secrets and ConfigMaps
 - apiGroups: [""]
   resources: ["secrets", "configmaps"]
-  verbs: ["get", "list"]
+  verbs: ["get", "list", "create"]
 # Events
 - apiGroups: [""]
   resources: ["events"]
