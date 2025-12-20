@@ -1,3 +1,11 @@
+def dockerSecretExists(){
+    def exists = sh(
+        script: "kubectl get secret docker_creds --ignore-not-found=true -o name",
+        returnStdout: true
+    ).trim()
+    return exists != ""
+}
+    
 pipeline {
     agent {
         kubernetes {
@@ -27,15 +35,6 @@ pipeline {
     }
     environment {
         docker_creds = credentials('DOCKERHUB_CREDS')
-    }
-
-    def dockerSecretExists(){
-        def exists = sh(
-            script: "kubectl get secret docker_creds --ignore-not-found=true -o name",
-            returnStdout: true
-        ).trim()
-
-        return exists != ""
     }
 
     stages {
