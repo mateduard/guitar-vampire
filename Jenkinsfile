@@ -52,20 +52,27 @@ pipeline {
             steps {
                 container('k8s'){
                     script{
-                        sh 'pwd'
-                        sh 'kubectl version'
-                        sh 'kubectl get pods'
                         if (dockerSecretExists()) {
-                            echo "Secret 'docker-creds' exists, stopping pipeline"
+                            echo "Secret 'docker-creds' exists, continuing pipeline"
+                        } else {
+                            echo "Secret 'docker-creds' does not exist, creating it. Please re-run the job after"
                             currentBuild.result = 'SUCCESS'
                             currentBuild.description = "Stopped: Secret 'docker-creds' exists"
                             return
-                        } else {
-                            echo "Secret 'docker-creds' does not exist, continuing"
                         }
                     }
                 }
             }                
+        }
+        stage('Debug Stage 2') {
+            steps {
+                script{
+                    echo "${docker_creds}"
+                    sh 'pwd'
+                    echo "${JENKINS_HOME}"
+                    echo "PATH: $PATH"
+                }
+            }
         }
         stage('Create Front image and push to Dockerhub') {
             when {
