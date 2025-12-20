@@ -28,3 +28,4 @@
 + Manage Jenkins -> Security -> TCP port for inbound agents: Fixed 50000
 + Note: Port 50000:50000 on jenkins-service to be opened! (already in manifest but worths mentioning)
 
+executor --dockerfile=Dockerfile --destination=mateduard/test-kaniko:1.0 --context=.
