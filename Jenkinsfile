@@ -1,6 +1,6 @@
 def dockerSecretExists(){
     def exists = sh(
-        script: "kubectl get secret docker_creds --ignore-not-found=true -o name",
+        script: "kubectl get secret docker-creds --ignore-not-found=true -o name",
         returnStdout: true
     ).trim()
     return exists != ""
@@ -56,12 +56,12 @@ pipeline {
                         sh 'kubectl version'
                         sh 'kubectl get pods'
                         if (dockerSecretExists()) {
-                            echo "Secret 'docker_creds' exists, stopping pipeline"
+                            echo "Secret 'docker-creds' exists, stopping pipeline"
                             currentBuild.result = 'SUCCESS'
-                            currentBuild.description = "Stopped: Secret 'docker_creds' exists"
+                            currentBuild.description = "Stopped: Secret 'docker-creds' exists"
                             return
                         } else {
-                            echo "Secret 'docker_creds' does not exist, continuing"
+                            echo "Secret 'docker-creds' does not exist, continuing"
                         }
                     }
                 }
