@@ -55,8 +55,8 @@ pipeline {
                             echo "Secret 'docker-creds' exists, continuing pipeline"
                         } else {
                             withCredentials([usernamePassword(credentialsId: 'DOCKERHUB_CREDS', 
-                                        dockerUsr: 'DOCKER_USER', 
-                                        dockerPass: 'DOCKER_PASS')]) {
+                                        usernameVariable: 'dockerUsr', 
+                                        passwordVariable: 'dockerPass')]) {
                             sh '''
                             echo "$dockerUsr SI PAROLA dockerPass"
                             '''
