@@ -62,10 +62,9 @@ pipeline {
                             sh '''
                             echo "$dockerUsr SI PAROLA dockerPass"
                             kubectl create secret docker-registry docker-creds \
-                                --from-literal=docker-server=https://index.docker.io/v1/ \
-                                --from-literal=docker-username=$dockerUsr \
-                                --from-literal=docker-password=$dockerPass \
-                                --dry-run=client -o yaml | kubectl apply -f -
+                                --docker-server=https://index.docker.io/v1/ \
+                                --docker-username=$dockerUsr \
+                                --docker-password=$dockerPass
                             '''
                             }
 
