@@ -10,7 +10,7 @@
 
 + Pod Template:
     Name: k8s_kaniko_agent
-    Labels: anything/empty     (doesn't matter as the calling the agent by label is deprecated. the new call uses agent's name)
+    Labels: anything/empty     (doesn't matter as calling the agent by label is deprecated. the new call uses agent's name)
     Upload the code from the file `jenkins_k8s_pod_template_worker.yaml` to the Raw YAML field.
     In case worker image is not available anymore, build and push `Dockerfile-jenkins-main-worker` from the current directory.
 
