@@ -10,7 +10,7 @@ pipeline {
     agent {
         kubernetes {
             inheritFrom 'k8s_kaniko_agent'
-            defaultContainer 'kaniko'
+            defaultContainer 'main-worker'
         }
     }
 
@@ -45,41 +45,42 @@ pipeline {
                     sh 'pwd'
                     echo "${JENKINS_HOME}"
                     echo "PATH: $PATH"
-                    sh 'apt-get update && apt-get install -y git'
                     sh 'git --version'
+                    sh 'kubectl get pods'
+                    sh 'echo "Starting investigation hold..." && sleep 2000 && echo "Investigation hold complete"'
                 }
             }
         }
-        stage('Check and create k8s docker secret') {
-            steps {
-                container('k8s'){
-                    script{
-                        if (dockerSecretExists()) {
-                            echo "Secret 'docker-creds' exists, continuing pipeline"
-                            sh 'echo "Starting investigation hold..." && sleep 1000 && echo "Investigation hold complete"'
-                        } else {
-                            withCredentials([usernamePassword(credentialsId: 'DOCKERHUB_CREDS', 
-                                        usernameVariable: 'dockerUsr', 
-                                        passwordVariable: 'dockerPass')]) {
-                            sh '''
-                            echo "$dockerUsr SI PAROLA dockerPass"
-                            kubectl create secret docker-registry docker-creds \
-                                --docker-server=https://index.docker.io/v1/ \
-                                --docker-username=$dockerUsr \
-                                --docker-password=$dockerPass
-                                --docker-email=example@yahoo.com
-                            '''
-                            }
+        // stage('Check and create k8s docker secret') {
+        //     steps {
+        //         container('k8s'){
+        //             script{
+        //                 if (dockerSecretExists()) {
+        //                     echo "Secret 'docker-creds' exists, continuing pipeline"
+        //                     sh 'echo "Starting investigation hold..." && sleep 2000 && echo "Investigation hold complete"'
+        //                 } else {
+        //                     withCredentials([usernamePassword(credentialsId: 'DOCKERHUB_CREDS', 
+        //                                 usernameVariable: 'dockerUsr', 
+        //                                 passwordVariable: 'dockerPass')]) {
+        //                     sh '''
+        //                     echo "$dockerUsr SI PAROLA dockerPass"
+        //                     kubectl create secret docker-registry docker-creds \
+        //                         --docker-server=https://index.docker.io/v1/ \
+        //                         --docker-username=$dockerUsr \
+        //                         --docker-password=$dockerPass
+        //                         --docker-email=example@yahoo.com
+        //                     '''
+        //                     }
 
-                            echo "Secret 'docker-creds' does NOT exist, created it. Please re-run the job after"
-                            currentBuild.result = 'SUCCESS'
-                            currentBuild.description = "Docker secret does NOT exist! Re-run the job!"
-                            throw new Exception("NO_ERRORS_JUST_RUN_JOB_AGAIN")
-                        }
-                    }
-                }
-            }                
-        }
+        //                     echo "Secret 'docker-creds' does NOT exist, created it. Please re-run the job after"
+        //                     currentBuild.result = 'SUCCESS'
+        //                     currentBuild.description = "Docker secret does NOT exist! Re-run the job!"
+        //                     throw new Exception("NO_ERRORS_JUST_RUN_JOB_AGAIN")
+        //                 }
+        //             }
+        //         }
+        //     }                
+        // }
         stage('Debug Stage 2') {
             steps {
                 script{
