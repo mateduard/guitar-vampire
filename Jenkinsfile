@@ -10,7 +10,7 @@ pipeline {
     agent {
         kubernetes {
             inheritFrom 'k8s_kaniko_agent'
-            defaultContainer 'main-worker'
+            defaultContainer 'kaniko'
         }
     }
 
