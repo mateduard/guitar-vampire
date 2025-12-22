@@ -9,7 +9,7 @@ def dockerSecretExists(){
 pipeline {
     agent {
         kubernetes {
-            inheritFrom 'k8s_kaniko_agent'
+            inheritFrom 'k8s-git-kaniko'
             defaultContainer 'main_worker'
         }
     }
