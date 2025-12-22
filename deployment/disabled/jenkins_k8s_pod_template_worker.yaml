@@ -6,14 +6,18 @@ spec:
   - name: jnlp
     image: jenkins/inbound-agent:latest
     workingDir: /home/jenkins/agent
-  - name: main-worker
-    image: mateduard/k8s-kaniko-git:1.2
+  - name: kaniko
+    image: gcr.io/kaniko-project/executor:debug
     command: ["cat"]
     tty: true
     volumeMounts:
     - name: docker-config
       mountPath: /kaniko/.docker
       readOnly: true
+  - name: k8s
+    image: alpine/k8s:1.28.4
+    command: ["cat"]
+    tty: true
   volumes:
   - name: docker-config
     secret:

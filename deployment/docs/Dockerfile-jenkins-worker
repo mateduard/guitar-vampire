@@ -13,15 +13,15 @@ RUN apk add --no-cache \
     curl
 
 # Copy kaniko from official image
-COPY --from=kaniko /kaniko /kaniko
-# COPY --from=kaniko /kaniko/executor /kaniko/executor
-# COPY --from=kaniko /kaniko/.docker /kaniko/.docker
+COPY --from=kaniko /kaniko/executor /kaniko/executor
+COPY --from=kaniko /kaniko/.docker /kaniko/.docker
 
 # Set permissions
 RUN chmod +x /kaniko/executor
 
 # Set PATH
 ENV PATH="/kaniko:${PATH}"
+ENV DOCKER_CONFIG='/kaniko/.docker'
 
 WORKDIR /workspace
 CMD ["/bin/sh"]
