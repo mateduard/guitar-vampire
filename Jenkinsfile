@@ -10,7 +10,7 @@ pipeline {
     agent {
         kubernetes {
             inheritFrom 'k8s_kaniko_agent'
-            defaultContainer 'kaniko'
+            defaultContainer 'main_worker'
         }
     }
 
@@ -45,8 +45,8 @@ pipeline {
                     sh 'pwd'
                     echo "${JENKINS_HOME}"
                     echo "PATH: $PATH"
-                    // sh 'git --version'
-                    // sh 'kubectl get pods'
+                    sh 'git --version'
+                    sh 'kubectl get pods'
                     sh 'echo "Starting investigation hold..." && sleep 2000 && echo "Investigation hold complete"'
                 }
             }
