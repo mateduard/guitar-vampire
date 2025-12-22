@@ -45,8 +45,8 @@ pipeline {
                     sh 'pwd'
                     echo "${JENKINS_HOME}"
                     echo "PATH: $PATH"
-                    sh 'git --version'
-                    sh 'kubectl get pods'
+                    // sh 'git --version'
+                    // sh 'kubectl get pods'
                     sh 'echo "Starting investigation hold..." && sleep 2000 && echo "Investigation hold complete"'
                 }
             }
