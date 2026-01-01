@@ -47,7 +47,7 @@ pipeline {
                     echo "PATH: $PATH"
                     sh 'git --version'
                     sh 'kubectl get pods'
-                    sh 'echo "Starting investigation hold..." && sleep 2000 && echo "Investigation hold complete"'
+                    // sh 'echo "Starting investigation hold..." && sleep 2000 && echo "Investigation hold complete"'
                 }
             }
         }
@@ -57,7 +57,7 @@ pipeline {
                     script{
                         if (dockerSecretExists()) {
                             echo "Secret 'docker-creds' exists, continuing pipeline"
-                            sh 'echo "Starting investigation hold..." && sleep 2000 && echo "Investigation hold complete"'
+                            // sh 'echo "Starting investigation hold..." && sleep 2000 && echo "Investigation hold complete"'
                         } else {
                             withCredentials([usernamePassword(credentialsId: 'DOCKERHUB_CREDS', 
                                         usernameVariable: 'dockerUsr', 
