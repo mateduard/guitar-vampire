@@ -53,29 +53,26 @@ pipeline {
         }
         stage('Check and create k8s docker secret') {
             steps {
-                container('k8s'){
-                    script{
-                        if (dockerSecretExists()) {
-                            echo "Secret 'docker-creds' exists, continuing pipeline"
-                            // sh 'echo "Starting investigation hold..." && sleep 2000 && echo "Investigation hold complete"'
-                        } else {
-                            withCredentials([usernamePassword(credentialsId: 'DOCKERHUB_CREDS', 
-                                        usernameVariable: 'dockerUsr', 
-                                        passwordVariable: 'dockerPass')]) {
-                            sh '''
-                            echo "$dockerUsr SI PAROLA dockerPass"
-                            kubectl create secret docker-registry docker-creds \
-                                --docker-server=https://index.docker.io/v1/ \
-                                --docker-username=$dockerUsr \
-                                --docker-password=$dockerPass
-                            '''
-                            }
-
-                            echo "Secret 'docker-creds' does NOT exist, created it. Please re-run the job after"
-                            currentBuild.result = 'SUCCESS'
-                            currentBuild.description = "Docker secret does NOT exist! Re-run the job!"
-                            throw new Exception("NO_ERRORS_JUST_RUN_JOB_AGAIN")
+                script{
+                    if (dockerSecretExists()) {
+                        echo "Secret 'docker-creds' exists, continuing pipeline"
+                        // sh 'echo "Starting investigation hold..." && sleep 2000 && echo "Investigation hold complete"'
+                    } else {
+                        withCredentials([usernamePassword(credentialsId: 'DOCKERHUB_CREDS', 
+                                    usernameVariable: 'dockerUsr', 
+                                    passwordVariable: 'dockerPass')]) {
+                        sh '''
+                        echo "$dockerUsr SI PAROLA dockerPass"
+                        kubectl create secret docker-registry docker-creds \
+                            --docker-server=https://index.docker.io/v1/ \
+                            --docker-username=$dockerUsr \
+                            --docker-password=$dockerPass
+                        '''
                         }
+                        echo "Secret 'docker-creds' does NOT exist, created it. Please re-run the job after"
+                        currentBuild.result = 'SUCCESS'
+                        currentBuild.description = "Docker secret does NOT exist! Re-run the job!"
+                        throw new Exception("NO_ERRORS_JUST_RUN_JOB_AGAIN")
                     }
                 }
             }                
