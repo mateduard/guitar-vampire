@@ -14,7 +14,6 @@ spec:
     - name: docker-config
       mountPath: /kaniko/.docker
       readOnly: true
-      optional: true
   volumes:
   - name: docker-config
     secret:
@@ -22,3 +21,4 @@ spec:
       items:
       - key: .dockerconfigjson
         path: config.json
+      optional: true
