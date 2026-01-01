@@ -69,7 +69,7 @@ pipeline {
                             --docker-password=$dockerPass
                         '''
                         }
-                        echo "Secret 'docker-creds' does NOT exist, created it. Please re-run the job after"
+                        echo "Secret 'docker-creds' did NOT exist, created it. Please re-run the job after"
                         currentBuild.result = 'SUCCESS'
                         currentBuild.description = "Docker secret does NOT exist! Re-run the job!"
                         throw new Exception("NO_ERRORS_JUST_RUN_JOB_AGAIN")
