@@ -41,7 +41,7 @@ pipeline {
     }
 
     stages {
-        stage('Setup variables'){
+        stage('Setup workspace and variables'){
             steps {
                 script{
                     sh 'pwd'
