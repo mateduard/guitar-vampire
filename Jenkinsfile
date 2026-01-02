@@ -47,7 +47,7 @@ pipeline {
                     sh 'pwd'
                     sh 'ls'
                     def commitHash = sh(
-                        script: 'cd guitar-vampire && git rev-parse --short HEAD',
+                        script: 'git rev-parse --short HEAD',
                         returnStdout: true
                     ).trim()
                     echo "${commitHash}"
