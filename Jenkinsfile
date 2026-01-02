@@ -53,7 +53,7 @@ pipeline {
                     echo "${commitHash}"
                 }
             }
-            image_tag_fe = ?: ${}
+            image_tag_fe = "" ? : "${image_tag_fe}"
         }
         stage('Debug Stage') {
             steps {
