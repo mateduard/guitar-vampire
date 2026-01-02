@@ -124,7 +124,6 @@ pipeline {
                         } else {
                             image_tag = "${params.frontImgVersion}-${commitHash}"
                         }
-                        image_tag = "${params.frontImgVersion}-${commitHash}"
                     }
                     image_name = "mateduard/k8s-cluster-front:${image_tag}"
                     
