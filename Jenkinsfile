@@ -51,12 +51,12 @@ pipeline {
                         returnStdout: true
                     ).trim()
                     echo "${commitHash}"
-                }
-                if (!params.frontImgTag) {
-                    image_tag_fe = "${commitHash}"
-                }
-                if (!params.backImgTag) {
-                    image_tag_be = "${commitHash}"
+                    if (!params.frontImgTag) {
+                        image_tag_fe = "${commitHash}"
+                    }
+                    if (!params.backImgTag) {
+                        image_tag_be = "${commitHash}"
+                    }
                 }
                 echo "$image_tag_fe"
                 echo "$image_tag_be"
