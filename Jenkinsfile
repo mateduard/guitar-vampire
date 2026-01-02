@@ -53,7 +53,14 @@ pipeline {
                     echo "${commitHash}"
                 }
             }
-            image_tag_fe = "" ? : "${image_tag_fe}"
+            if (!params.frontImgTag) {
+                image_tag_fe = "${commitHash}"
+            }
+            if (!params.backImgTag) {
+                image_tag_be = "${commitHash}"
+            }
+            echo "$image_tag_fe"
+            echo "$image_tag_be"
         }
         stage('Debug Stage') {
             steps {
