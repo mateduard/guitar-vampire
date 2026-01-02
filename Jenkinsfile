@@ -47,20 +47,20 @@ pipeline {
                     sh 'pwd'
                     sh 'ls'
                     def commitHash = sh(
-                        script: 'git rev-parse --short HEAD',
+                        script: 'cd guitar-vampire && git rev-parse --short HEAD',
                         returnStdout: true
                     ).trim()
                     echo "${commitHash}"
                 }
+                if (!params.frontImgTag) {
+                    image_tag_fe = "${commitHash}"
+                }
+                if (!params.backImgTag) {
+                    image_tag_be = "${commitHash}"
+                }
+                echo "$image_tag_fe"
+                echo "$image_tag_be"
             }
-            if (!params.frontImgTag) {
-                image_tag_fe = "${commitHash}"
-            }
-            if (!params.backImgTag) {
-                image_tag_be = "${commitHash}"
-            }
-            echo "$image_tag_fe"
-            echo "$image_tag_be"
         }
         stage('Debug Stage') {
             steps {
