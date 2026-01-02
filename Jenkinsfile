@@ -119,7 +119,7 @@ pipeline {
             steps {
                 echo 'Build and push FRONTEND image'
                 script {
-                image_tag = "${params.frontImgTag}"
+                image_tag = "${image_tag_fe}"
                 image_name = "mateduard/k8s-cluster-front"
                 sh "executor --dockerfile=./guitarvampire-app/Dockerfile --destination=${image_name}:${image_tag} --context=./guitarvampire-app"
                 }
@@ -132,7 +132,7 @@ pipeline {
             steps {
                 echo 'Build and push BACKEND image'
                 script {
-                image_tag = "${params.backImgTag}"
+                image_tag = "${image_tag_be}"
                 image_name = "mateduard/k8s-cluster-back"
                 sh "executor --dockerfile=./guitarvampire-app/Dockerfile --destination=${image_name}:${image_tag} --context=./guitarvampire-app"
                 }
