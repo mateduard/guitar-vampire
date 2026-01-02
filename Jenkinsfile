@@ -34,11 +34,10 @@ pipeline {
         string(name: 'backImgVersion', defaultValue: '', description: 'Backend image version. REQUIRED if building image!!')
         booleanParam(name: 'deployImages', defaultValue: 'false', description: 'Should I deploy the created images?')
     }
-    // environment {
-    //     docker_creds = credentials('DOCKERHUB_CREDS')
-    //     image_tag_fe = "${params.frontImgVersion}"
-    //     image_tag_be = "${params.backImgVersion}"
-    // }
+    environment {
+        branch_test_name = "release/1.22"
+        image_tag_be = "${params.backImgVersion}"
+    }
 
     stages {
         stage('Setup workspace and variables'){
@@ -120,7 +119,7 @@ pipeline {
                     if (!"${params.frontImgVersion}") {
                         throw new Exception("FRONTEND IMAGE VERSION NOT SPECIFIED. TRY AGAIN")
                     } else {
-                        if (env.BRANCH_NAME.startsWith('release/')){
+                        if ("${branch_test_name}".startsWith('release/')){
                             image_tag = "${params.frontImgVersion}"
                         } else {
                             image_tag = "${params.frontImgVersion}-${commitHash}"
