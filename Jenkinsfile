@@ -29,16 +29,32 @@ pipeline {
     
     parameters {
         booleanParam(name: 'createFrontImage', defaultValue: 'false', description: 'Should I create frontend image?')
-        string(name: 'frontImgTag', defaultValue: '', description: 'Tag to be used if frontend image is created.')
+        string(name: 'frontImgTag', defaultValue: '', description: 'Tag to be used if frontend image is created. Random if left blank.')
         booleanParam(name: 'createBackImage', defaultValue: 'false', description: 'Should I create backend image?')
-        string(name: 'backImgTag', defaultValue: '', description: 'Tag to be used if backend image is created.')
+        string(name: 'backImgTag', defaultValue: '', description: 'Tag to be used if backend image is created. Random if left blank.')
         booleanParam(name: 'deployImages', defaultValue: 'false', description: 'Should I deploy the created images?')
     }
-    // environment {
-    //     docker_creds = credentials('DOCKERHUB_CREDS')
-    // }
+    environment {
+        docker_creds = credentials('DOCKERHUB_CREDS')
+        image_tag_fe = params.frontImgTag
+        image_tag_be = params.backImgTag
+    }
 
     stages {
+        stage('Setup variables'){
+            steps {
+                script{
+                    sh 'pwd'
+                    sh 'ls'
+                    def commitHash = sh(
+                        script: 'git rev-parse --short HEAD',
+                        returnStdout: true
+                    ).trim()
+                    echo "${commitHash}"
+                }
+            }
+            image_tag_fe = ?: ${}
+        }
         stage('Debug Stage') {
             steps {
                 script{
@@ -55,7 +71,7 @@ pipeline {
             steps {
                 script{
                     if (dockerSecretExists()) {
-                        echo "Secret 'docker-creds' exists, continuing pipeline"
+                        echo "Secret 'docker-creds' exists, resuming the pipeline"
                         // sh 'echo "Starting investigation hold..." && sleep 2000 && echo "Investigation hold complete"'
                     } else {
                         withCredentials([usernamePassword(credentialsId: 'DOCKERHUB_CREDS', 
@@ -93,15 +109,11 @@ pipeline {
                 expression { params.createFrontImage }
             }
             steps {
-                echo 'S-a intrat in imagine FRONT'
+                echo 'Build and push FRONTEND image'
                 script {
                 image_tag = "${params.frontImgTag}"
                 image_name = "mateduard/k8s-cluster-front"
-                    docker.withRegistry('https://index.docker.io/v1/', 'DOCKERHUB_CREDS') {
-                        echo 'Logged in to Docker Hub'
-                        front_image = docker.build("${image_name}:${image_tag}", "--no-cache ${WORKSPACE}/guitarvampire-app")
-                        front_image.push()
-                    }
+                sh "executor --dockerfile=./guitarvampire-app/Dockerfile --destination=${image_name}:${image_tag} --context=./guitarvampire-app"
                 }
             }
         }
@@ -110,17 +122,12 @@ pipeline {
                 expression { params.createBackImage }
             }
             steps {
+                echo 'Build and push BACKEND image'
                 script {
                 image_tag = "${params.backImgTag}"
                 image_name = "mateduard/k8s-cluster-back"
-                    docker.withRegistry('https://index.docker.io/v1/', 'DOCKERHUB_CREDS') {
-                        echo 'Logged in to Docker Hub'
-                        back_image = docker.build("${image_name}:${image_tag}", "--no-cache ${WORKSPACE}/server")
-                        back_image.push()
-                    }
+                sh "executor --dockerfile=./guitarvampire-app/Dockerfile --destination=${image_name}:${image_tag} --context=./guitarvampire-app"
                 }
-                echo 'S-a intrat in imagine BACK'
-                sh 'ls'
             }
         }
         stage('Deploy created images') {
