@@ -36,8 +36,8 @@ pipeline {
     }
     environment {
         docker_creds = credentials('DOCKERHUB_CREDS')
-        image_tag_fe = ${params.frontImgTag}
-        image_tag_be = ${params.backImgTag}
+        image_tag_fe = "${params.frontImgTag}"
+        image_tag_be = "${params.backImgTag}"
     }
 
     stages {
