@@ -33,6 +33,6 @@ spec:
         - name: FRONT_PORT
           value: "80"             # port service frontend (in this case, ingress public exposed port, as the requests are redirected by path and traffic rules)
         - name: BACK_SERVICE
-          value: 4.207.208.149     # ip static ingress
+          value: 132.164.141.179    # ip static ingress
         - name: FRONT_SERVICE
-          value: 4.207.208.149     # ip static ingress
+          value: 132.164.141.179     # ip static ingress
