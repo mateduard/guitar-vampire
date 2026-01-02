@@ -20,5 +20,5 @@ spec:
       secretName: docker-creds
       items:
       - key: .dockerconfigjson
-        path: config.json
-      optional: true
+        path: config.json 
+      optional: true      # If secret doesn't exist, let jenkins pipeline create it on the worker instead of preventing the worker to start
