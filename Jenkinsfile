@@ -46,6 +46,7 @@ pipeline {
                 script{
                     sh 'pwd'
                     sh 'ls'
+                    sh "git config --global --add safe.directory ${WORKSPACE}"
                     def commitHash = sh(
                         script: 'git rev-parse --short HEAD',
                         returnStdout: true
