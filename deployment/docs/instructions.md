@@ -9,3 +9,4 @@ Notes:
 - For jenkins instructions, see `jenkins_instructions.md`
 - Original nginx controller manifest: https://raw.githubusercontent.com/kubernetes/ingress-nginx/controller-v1.8.2/deploy/static/provider/cloud/deploy.yaml
 - Deployment didn't work on ARM architecture k8s VM workers when tried. Worked on D2ls_v5 VM in MS Azure.
+- For building a production image (with no commit hash tag), create the image from a branch with the name starting with `release/...`

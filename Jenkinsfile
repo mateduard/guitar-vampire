@@ -29,15 +29,15 @@ pipeline {
     
     parameters {
         booleanParam(name: 'createFrontImage', defaultValue: 'false', description: 'Should I create frontend image?')
-        string(name: 'frontImgTag', defaultValue: '', description: 'Tag to be used if frontend image is created. Random if left blank.')
+        string(name: 'frontImgVersion', defaultValue: '', description: 'Frontend image version. REQUIRED if building image!!')
         booleanParam(name: 'createBackImage', defaultValue: 'false', description: 'Should I create backend image?')
-        string(name: 'backImgTag', defaultValue: '', description: 'Tag to be used if backend image is created. Random if left blank.')
+        string(name: 'backImgVersion', defaultValue: '', description: 'Backend image version. REQUIRED if building image!!')
         booleanParam(name: 'deployImages', defaultValue: 'false', description: 'Should I deploy the created images?')
     }
     environment {
         docker_creds = credentials('DOCKERHUB_CREDS')
-        image_tag_fe = "${params.frontImgTag}"
-        image_tag_be = "${params.backImgTag}"
+        image_tag_fe = "${params.frontImgVersion}"
+        image_tag_be = "${params.backImgVersion}"
     }
 
     stages {
@@ -47,20 +47,18 @@ pipeline {
                     sh 'pwd'
                     sh 'ls'
                     sh "git config --global --add safe.directory ${WORKSPACE}"
-                    def commitHash = sh(
+                    commitHash = sh(
                         script: 'git rev-parse --short HEAD',
                         returnStdout: true
                     ).trim()
                     echo "${commitHash}"
-                    if (!params.frontImgTag) {
-                        image_tag_fe = "${commitHash}"
-                    }
-                    if (!params.backImgTag) {
-                        image_tag_be = "${commitHash}"
-                    }
+                    
+                    // if (!params.backImgTag) {
+                    //     image_tag_be = "${commitHash}"
+                    // }
                 }
-                echo "$image_tag_fe"
-                echo "$image_tag_be"
+                // echo "$image_tag_fe"
+                // echo "$image_tag_be"
             }
         }
         stage('Debug Stage') {
@@ -119,9 +117,20 @@ pipeline {
             steps {
                 echo 'Build and push FRONTEND image'
                 script {
-                image_tag = "${image_tag_fe}"
-                image_name = "mateduard/k8s-cluster-front"
-                sh "executor --dockerfile=./guitarvampire-app/Dockerfile --destination=${image_name}:${image_tag} --context=./guitarvampire-app"
+                    if (!params.frontImgVersion) {
+                        throw new Exception("FRONTEND IMAGE VERSION NOT SPECIFIED. TRY AGAIN")
+                    } else {
+                        if (env.BRANCH_NAME.startsWith('release/')){
+                            image_tag = "${params.frontImgVersion}"
+                        } else {
+                            image_tag = "${params.frontImgVersion}-${commitHash}"
+                        }
+                        image_tag = "${params.frontImgVersion}-${commitHash}"
+                    }
+                    image_name = "mateduard/k8s-cluster-front:${image_tag}"
+                    
+
+                    sh "executor --dockerfile=./guitarvampire-app/Dockerfile --destination=${image_name} --context=./guitarvampire-app"
                 }
             }
         }
@@ -133,7 +142,7 @@ pipeline {
                 echo 'Build and push BACKEND image'
                 script {
                 image_tag = "${image_tag_be}"
-                image_name = "mateduard/k8s-cluster-back"
+                repo_name = "mateduard/k8s-cluster-back"
                 sh "executor --dockerfile=./guitarvampire-app/Dockerfile --destination=${image_name}:${image_tag} --context=./guitarvampire-app"
                 }
             }

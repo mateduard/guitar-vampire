@@ -22,4 +22,7 @@
     - Behaviors: 
         1. Discover branches: Exclude branches that are also filed as PRs
         2. Discover pull requests from origin: The current pull request revision
+    - Plugins (besides recommended): 
+        1. Kubernetes plugin
+        2. Pipeline stage view
     - Go to Github project -> settings -> Webhooks -> Payload URL `http://[jenkins-IP]/jenkins/github-webhook/`
