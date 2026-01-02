@@ -119,14 +119,13 @@ pipeline {
                     if (!"${params.frontImgVersion}") {
                         throw new Exception("FRONTEND IMAGE VERSION NOT SPECIFIED. TRY AGAIN")
                     } else {
-                        if ("${branch_test_name}".startsWith('release/')){
+                        if (env.BRANCH_NAME.startsWith('release/')){
                             image_tag = "${params.frontImgVersion}"
                         } else {
                             image_tag = "${params.frontImgVersion}-${commitHash}"
                         }
                     }
                     image_name = "mateduard/k8s-cluster-front:${image_tag}"
-                    
 
                     sh "executor --dockerfile=./guitarvampire-app/Dockerfile --destination=${image_name} --context=./guitarvampire-app"
                 }
