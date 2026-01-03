@@ -153,8 +153,18 @@ pipeline {
             steps {
                 echo 'Deploy FE and/or BE image/s'
                 sh 'ls'
-                sh "sed -i 's|mateduard/k8s-cluster-front:1.5|mateduard/${fe_image_name}|g' ./deployment/gv-front-deployment.yaml"
-                sh "sed -i 's|mateduard/k8s-cluster-back:1.5|mateduard/${be_image_name}|g' ./deployment/gv-back-deployment.yaml"
+                if (params.createFrontImage){
+                    sh "sed -i 's|mateduard/k8s-cluster-front:1.5|mateduard/${fe_image_name}|g' ./deployment/gv-front-deployment.yaml"
+                    sh 'kubectl apply -f ./deployment/gv-front-deployment.yaml'
+                    sh 'kubectl rollout status deployment/gv-back-deployment --timeout=300s'
+                    echo "Frontend image deployed"
+                }
+                if (params.createBackImage){
+                    sh "sed -i 's|mateduard/k8s-cluster-back:1.5|mateduard/${be_image_name}|g' ./deployment/gv-back-deployment.yaml"
+                    sh 'kubectl apply -f ./deployment/gv-back-deployment.yaml'
+                    sh 'kubectl rollout status deployment/gv-back-deployment --timeout=300s'
+                    echo "Backend image deployed"
+                }
             }
         }
     }
