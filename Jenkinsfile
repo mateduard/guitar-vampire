@@ -140,7 +140,7 @@ pipeline {
                             image_tag = "${params.backImgVersion}-${commitHash}"
                         }
                     }
-                    be_image_name = "mateduard/k8s-cluster-front:${image_tag}"
+                    be_image_name = "mateduard/k8s-cluster-back:${image_tag}"
                 
                 sh "executor --dockerfile=./server/Dockerfile --destination=${be_image_name} --context=./server"
                 }
