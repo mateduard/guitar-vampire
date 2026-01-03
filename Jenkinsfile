@@ -36,7 +36,6 @@ pipeline {
     }
     environment {
         branch_test_name = "release/1.22"
-        image_tag_be = "${params.backImgVersion}"
     }
 
     stages {
@@ -51,13 +50,7 @@ pipeline {
                         returnStdout: true
                     ).trim()
                     echo "${commitHash}"
-                    
-                    // if (!params.backImgTag) {
-                    //     image_tag_be = "${commitHash}"
-                    // }
                 }
-                // echo "$image_tag_fe"
-                // echo "$image_tag_be"
             }
         }
         stage('Debug Stage') {
@@ -127,7 +120,7 @@ pipeline {
                     }
                     image_name = "mateduard/k8s-cluster-front:${image_tag}"
 
-                    sh "executor --dockerfile=./guitarvampire-app/Dockerfile --destination=${image_name} --context=./guitarvampire-app"
+                    sh "executor --dockerfile=./guitarvampire-app/Dockerfile --destination=${image_name} --context=."
                 }
             }
         }
@@ -138,9 +131,18 @@ pipeline {
             steps {
                 echo 'Build and push BACKEND image'
                 script {
-                image_tag = "${image_tag_be}"
-                repo_name = "mateduard/k8s-cluster-back"
-                sh "executor --dockerfile=./guitarvampire-app/Dockerfile --destination=${image_name}:${image_tag} --context=./guitarvampire-app"
+                    if (!"${params.backImgVersion}") {
+                        throw new Exception("BACKEND IMAGE VERSION NOT SPECIFIED. TRY AGAIN")
+                    } else {
+                        if (env.BRANCH_NAME.startsWith('release/')){
+                            image_tag = "${params.backImgVersion}"
+                        } else {
+                            image_tag = "${params.backImgVersion}-${commitHash}"
+                        }
+                    }
+                    image_name = "mateduard/k8s-cluster-front:${image_tag}"
+                
+                sh "executor --dockerfile=./server/Dockerfile --destination=${image_name} --context=."
                 }
             }
         }
