@@ -118,9 +118,9 @@ pipeline {
                             image_tag = "${params.frontImgVersion}-${commitHash}"
                         }
                     }
-                    image_name = "mateduard/k8s-cluster-front:${image_tag}"
+                    fe_image_name = "mateduard/k8s-cluster-front:${image_tag}"
 
-                    sh "executor --dockerfile=./guitarvampire-app/Dockerfile --destination=${image_name} --context=."
+                    sh "executor --dockerfile=./guitarvampire-app/Dockerfile --destination=${fe_image_name} --context=./guitarvampire-app"
                 }
             }
         }
@@ -140,9 +140,9 @@ pipeline {
                             image_tag = "${params.backImgVersion}-${commitHash}"
                         }
                     }
-                    image_name = "mateduard/k8s-cluster-front:${image_tag}"
+                    be_image_name = "mateduard/k8s-cluster-front:${image_tag}"
                 
-                sh "executor --dockerfile=./server/Dockerfile --destination=${image_name} --context=."
+                sh "executor --dockerfile=./server/Dockerfile --destination=${be_image_name} --context=./server"
                 }
             }
         }
@@ -151,8 +151,10 @@ pipeline {
                 expression { params.deployImages }
             }
             steps {
-                echo 'S-a intrat in deploy'
+                echo 'Deploy FE and/or BE image/s'
                 sh 'ls'
+                sh "sed -i 's|mateduard/k8s-cluster-front:1.5|mateduard/${fe_image_name}|g' ./deployment/gv-front-deployment.yaml"
+                sh "sed -i 's|mateduard/k8s-cluster-back:1.5|mateduard/${be_image_name}|g' ./deployment/gv-back-deployment.yaml"
             }
         }
     }
