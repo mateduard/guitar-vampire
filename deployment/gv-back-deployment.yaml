@@ -29,7 +29,7 @@ spec:
             cpu: "150m" 
         env: 
         - name: BACK_PORT
-          value: "80"           # port service backend (in this case, ingress public exposed port, as the requests are redirected by path and traffic rules)
+          value: "5000"           # the port backend app will run on and expose for the service (needs to be the same to container's service targetPort)
         - name: FRONT_PORT
           value: "80"             # port service frontend (in this case, ingress public exposed port, as the requests are redirected by path and traffic rules)
         - name: BACK_SERVICE
