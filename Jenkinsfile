@@ -157,7 +157,7 @@ pipeline {
                     if (params.createFrontImage){
                         sh "sed -i 's|mateduard/k8s-cluster-front:1.5|${fe_image_name}|g' ./deployment/gv-front-deployment.yaml"
                         sh 'kubectl apply -f ./deployment/gv-front-deployment.yaml'
-                        sh 'kubectl rollout status deployment/gv-back --timeout=300s'
+                        sh 'kubectl rollout status deployment/gv-front --timeout=300s'
                         echo "Frontend image deployed"
                     }
                     if (params.createBackImage){
