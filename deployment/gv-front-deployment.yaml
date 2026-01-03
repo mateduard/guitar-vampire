@@ -49,7 +49,7 @@ spec:
         - name: VITE_BACK_PORT
           value: "80"           # port service backend (in this case, ingress public exposed port, as the requests are redirected by path and traffic rules)
         - name: VITE_FRONT_PORT
-          value: "80"             # port service frontend (in this case, ingress public exposed port, as the requests are redirected by path and traffic rules)
+          value: "8080"             # the port frontend app will run on and expose to the service (needs to be the same to container's service targetPort)
         - name: VITE_BACK_SERVICE
           value: 132.164.141.179     # ip static ingress
         - name: VITE_FRONT_SERVICE
