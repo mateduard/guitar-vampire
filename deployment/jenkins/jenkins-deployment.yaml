@@ -1,0 +1,57 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: jenkins
+  labels:
+    app: jenkins
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: jenkins
+  template:
+    metadata:
+      labels:
+        app: jenkins
+    spec:
+      serviceAccountName: jenkins
+      securityContext:
+        fsGroup: 1000   # All mounted volumes get group ownership set to 1000 (jenkins image has a layer where jenkins user is added to group 1000)
+      containers:
+      - name: jenkins
+        image: jenkins/jenkins:jdk21
+        volumeMounts:
+        - name: jenkins-storage
+          mountPath: /var/jenkins_home
+        # readinessProbe:
+        #   httpGet:
+        #     path: /
+        #     port: 80
+        #   initialDelaySeconds: 25
+        #   periodSeconds: 20
+        #   timeoutSeconds: 15
+        #   successThreshold: 1
+        #   failureThreshold: 3
+        # livenessProbe:
+        #   httpGet:
+        #     path: /
+        #     port: 80
+        #   initialDelaySeconds: 20
+        #   periodSeconds: 18
+        #   timeoutSeconds: 15
+        #   successThreshold: 1
+        #   failureThreshold: 3
+        ports:
+        - name: http
+          containerPort: 8080
+        # resources:
+        #   limits:
+        #     memory: "250Mi"        #  Maximum memory the container can use
+        #     cpu: "150m"
+        env:
+        - name: JENKINS_OPTS
+          value: "--httpPort=8080 --prefix=/jenkins"
+      volumes:
+      - name: jenkins-storage
+        persistentVolumeClaim:
+          claimName: jenkins-pvc

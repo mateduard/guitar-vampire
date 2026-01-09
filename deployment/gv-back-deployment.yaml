@@ -1,0 +1,38 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: gv-back
+  labels:
+    app: gv-back
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: gv-back
+  template:
+    metadata:
+      labels:
+        app: gv-back
+    spec:
+      containers:
+      - name: gv-back
+        image: mateduard/k8s-cluster-back:1.5
+        ports:
+        - name: http
+          containerPort: 5000
+        resources:
+          requests:
+            memory: "200Mi"      # Minimum memory guaranteed to the container
+            cpu: "100m"          # Minimum CPU guaranteed (100 millicores, or 0.1 CPU)
+          limits:
+            memory: "250Mi"        # Maximum memory the container can use
+            cpu: "150m" 
+        env: 
+        - name: BACK_PORT
+          value: "5000"           # the port backend app will run on and expose to the service (needs to be the same to container's service targetPort)
+        - name: FRONT_PORT
+          value: "80"             # port service frontend (in this case, ingress public exposed port, as the requests are redirected by path and traffic rules)
+        - name: BACK_SERVICE
+          value: 132.164.141.179    # ip static ingress
+        - name: FRONT_SERVICE
+          value: 132.164.141.179     # ip static ingress

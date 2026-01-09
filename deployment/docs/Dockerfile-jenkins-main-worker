@@ -1,0 +1,27 @@
+# Get kaniko from official image
+FROM gcr.io/kaniko-project/executor:debug AS kaniko
+
+# Main image
+FROM alpine/k8s:1.28.4
+
+USER root
+
+# Install git
+RUN apk add --no-cache \
+    git \
+    ca-certificates \
+    curl
+
+# Copy kaniko from official image
+COPY --from=kaniko /kaniko/executor /kaniko/executor
+COPY --from=kaniko /kaniko/.docker /kaniko/.docker
+
+# Set permissions
+RUN chmod +x /kaniko/executor
+
+# Set PATH
+ENV PATH="/kaniko:${PATH}"
+ENV DOCKER_CONFIG='/kaniko/.docker'
+
+WORKDIR /workspace
+CMD ["/bin/sh"]

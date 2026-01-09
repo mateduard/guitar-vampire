@@ -1,0 +1,11 @@
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: jenkins-pvc
+spec:
+  accessModes:
+    - ReadWriteOnce   # Only one node at a time. Change if jenkins scales up across multiple nodes
+  resources:
+    requests:
+      storage: 8Gi    # Should be enough for a testing environment
+  storageClassName: managed-csi  # AKS default storage class. 64GiB limited in Free Tier

@@ -1,0 +1,56 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: gv-front
+  labels:
+    app: gv-front
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: gv-front
+  template:
+    metadata:
+      labels:
+        app: gv-front
+    spec:
+      containers:
+      - name: gv-front
+        image: mateduard/k8s-cluster-front:1.5
+        readinessProbe:
+          httpGet:
+            path: /
+            port: 8080
+          initialDelaySeconds: 25
+          periodSeconds: 20
+          timeoutSeconds: 15
+          successThreshold: 1
+          failureThreshold: 3
+        livenessProbe:
+          httpGet:
+            path: /
+            port: 8080
+          initialDelaySeconds: 20
+          periodSeconds: 18
+          timeoutSeconds: 15
+          successThreshold: 1
+          failureThreshold: 3
+        ports:
+        - name: http
+          containerPort: 8080
+        resources:
+          requests:
+            memory: "200Mi"      # Minimum memory guaranteed to the container
+            cpu: "100m"          # Minimum CPU guaranteed (350 millicores, or 0.35 CPU)
+          limits:
+            memory: "250Mi"        # Maximum memory the container can use
+            cpu: "150m"
+        env:
+        - name: VITE_BACK_PORT
+          value: "80"           # port service backend (in this case, ingress public exposed port, as the requests are redirected by path and traffic rules)
+        - name: VITE_FRONT_PORT
+          value: "8080"             # the port frontend app will run on and expose to the service (needs to be the same to container's service targetPort)
+        - name: VITE_BACK_SERVICE
+          value: 132.164.141.179     # ip static ingress
+        - name: VITE_FRONT_SERVICE
+          value: 132.164.141.179     # ip static ingress

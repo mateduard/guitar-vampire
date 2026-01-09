@@ -1,0 +1,20 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: jenkins-service   #   Service for jenkins pod
+  namespace: default
+  labels:
+    app: jenkins
+spec:
+  type: ClusterIP
+  selector:
+    app: jenkins
+  ports:
+    - name: http
+      port: 80
+      targetPort: 8080
+      protocol: TCP
+    - name: jnlp    # Port for jnlp in k8s agents
+      port: 50000
+      targetPort: 50000
+      protocol: TCP

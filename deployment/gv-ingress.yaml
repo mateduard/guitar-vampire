@@ -1,0 +1,33 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: gv-ingress
+  namespace: default
+  labels:
+    obiect: ingress
+spec:
+  ingressClassName: nginx
+  rules:
+  - http:
+      paths:
+      - path: /api
+        pathType: Prefix
+        backend:
+          service:
+            name: gv-back-service
+            port:
+              number: 5000
+      - path: /jenkins
+        pathType: Prefix
+        backend:
+          service:
+            name: jenkins-service
+            port:
+              number: 80
+      - path: /
+        pathType: Prefix
+        backend:
+          service:
+            name: gv-front-service
+            port:
+              number: 8080

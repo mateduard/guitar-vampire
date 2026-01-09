@@ -1,9 +1,10 @@
+const back_properties = require('./config/back_properties');
 const express = require('express');
 const connectDB = require('./config/db');
-require('dotenv').config();
-const port = process.env.PORT || 5000;
+// require('dotenv').config();
+const back_port = back_properties.BACK_PORT;
 const cors = require('cors');
-const GuitarModel = require('./models/Guitar');
+const GuitarModel = require('./models/Guitar'); // in case of any POST request..
 const path = require('path');
 
 connectDB();
@@ -18,20 +19,23 @@ app.use(express.json());
       'http://localhost:3000'], */
 
 app.use(
-  cors({
+  cors(/* {
     origin: ['http://localhost:5000',
         'http://localhost:3000'],
     credentials: true,
-  })
+  } */)
 );
 
 app.get('/', (req, res) => {
-  res.json({ message: 'Welcome to the GuitarVampire API' });
+  console.log();
+  res.json({
+    message: `Welcome to the GuitarVampire API. This service is exposed at ${back_properties.BACK_SERVICE}:${back_properties.BACK_PORT}`,
+  });
 });
 
 const guitarsRouter = require('./routes/guitars');
 app.use('/api/guitars', guitarsRouter);
 
-app.listen(port, () => {
-  console.log(`Server is running on port ${port}`);
+app.listen(back_port, () => {
+  console.log(`Server is running on port ${back_port}`);
 });

@@ -1,1 +1,3 @@
-export const BACKEND_URL = 'http://172.20.10.2:5000';
+import front_properties from '../../config/front_properties';
+
+export const BACKEND_URL = `http://${front_properties.BACK_SERVICE}:${front_properties.BACK_PORT}`;
