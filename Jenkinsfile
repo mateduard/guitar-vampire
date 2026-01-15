@@ -153,6 +153,7 @@ pipeline {
             steps {
                 script {
                     echo 'Deploy FE and/or BE image/s'
+                    echo "TAGUL FRONT ESTE: ${fe_image_tag}"
                     if (params.frontImgVersion){
                         sh "sed -i 's|mateduard/k8s-cluster-front:1.5|mateduard/k8s-cluster-front:${fe_image_tag}|g' ./deployment/gv-front-deployment.yaml"
                         sh 'kubectl apply -f ./deployment/gv-front-deployment.yaml'
