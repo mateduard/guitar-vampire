@@ -109,7 +109,7 @@ pipeline {
             steps {
                 echo 'Build and push FRONTEND image'
                 script {
-                    if (!"${params.frontImgVersion}") {
+                    if (!params.frontImgVersion) {
                         throw new Exception("FRONTEND IMAGE VERSION NOT SPECIFIED. TRY AGAIN")
                     } else {
                         if (env.BRANCH_NAME.startsWith('release/')){
@@ -131,7 +131,7 @@ pipeline {
             steps {
                 echo 'Build and push BACKEND image'
                 script {
-                    if (!"${params.backImgVersion}") {
+                    if (!params.backImgVersion) {
                         throw new Exception("BACKEND IMAGE VERSION NOT SPECIFIED. TRY AGAIN")
                     } else {
                         if (env.BRANCH_NAME.startsWith('release/')){
@@ -154,11 +154,9 @@ pipeline {
                 script {
                     echo 'Deploy FE and/or BE image/s'
                     if(!params.createFrontImage){
-                        echo "s-a intrat in front if;"
                         fe_image_name = "mateduard/k8s-cluster-front:${params.frontImgVersion}"
-                        echo "noul nume este: ${fe_image_name}"
                     }
-                     if(!"${params.createBackImage}"){
+                     if(!params.createBackImage){
                         be_image_name = "mateduard/k8s-cluster-back:${params.backImgVersion}"
                     }
                     if (params.frontImgVersion){
