@@ -154,7 +154,9 @@ pipeline {
                 script {
                     echo 'Deploy FE and/or BE image/s'
                     if(!"${params.createFrontImage}"){
+                        echo "s-a intrat in front if;"
                         fe_image_name = "mateduard/k8s-cluster-front:${params.frontImgVersion}"
+                        echo "noul nume este: ${fe_image_name}"
                     }
                      if(!"${params.createBackImage}"){
                         be_image_name = "mateduard/k8s-cluster-back:${params.backImgVersion}"
