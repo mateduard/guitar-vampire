@@ -36,6 +36,8 @@ pipeline {
     }
     environment {
         branch_test_name = "release/1.22"
+        fe_image_name = ''
+        be_image_name = ''
     }
 
     stages {
@@ -160,12 +162,14 @@ pipeline {
                         be_image_name = "mateduard/k8s-cluster-back:${params.backImgVersion}"
                     }
                     if (params.frontImgVersion){
+                        echo "Deploying Front image..."
                         sh "sed -i 's|mateduard/k8s-cluster-front:1.5|${fe_image_name}|g' ./deployment/gv-front-deployment.yaml"
                         sh 'kubectl apply -f ./deployment/gv-front-deployment.yaml'
                         sh 'kubectl rollout status deployment/gv-front --timeout=300s'
                         echo "Frontend image deployed"
                     }
                     if (params.backImgVersion){
+                        echo "Deploying Front image..."
                         sh "sed -i 's|mateduard/k8s-cluster-back:1.5|${be_image_name}|g' ./deployment/gv-back-deployment.yaml"
                         sh 'kubectl apply -f ./deployment/gv-back-deployment.yaml'
                         sh 'kubectl rollout status deployment/gv-back --timeout=300s'
