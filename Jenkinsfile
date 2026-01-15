@@ -113,12 +113,12 @@ pipeline {
                         throw new Exception("FRONTEND IMAGE VERSION NOT SPECIFIED. TRY AGAIN")
                     } else {
                         if (env.BRANCH_NAME.startsWith('release/')){
-                            image_tag = "${params.frontImgVersion}"
+                            fe_image_tag = "${params.frontImgVersion}"
                         } else {
-                            image_tag = "${params.frontImgVersion}-${commitHash}"
+                            fe_image_tag = "${params.frontImgVersion}-${commitHash}"
                         }
                     }
-                    fe_image_name = "mateduard/k8s-cluster-front:${image_tag}"
+                    fe_image_name = "mateduard/k8s-cluster-front:${fe_image_tag}"
 
                     sh "executor --dockerfile=./guitarvampire-app/Dockerfile --destination=${fe_image_name} --context=./guitarvampire-app"
                 }
@@ -135,9 +135,9 @@ pipeline {
                         throw new Exception("BACKEND IMAGE VERSION NOT SPECIFIED. TRY AGAIN")
                     } else {
                         if (env.BRANCH_NAME.startsWith('release/')){
-                            image_tag = "${params.backImgVersion}"
+                            be_image_tag = "${params.backImgVersion}"
                         } else {
-                            image_tag = "${params.backImgVersion}-${commitHash}"
+                            be_image_tag = "${params.backImgVersion}-${commitHash}"
                         }
                     }
                     be_image_name = "mateduard/k8s-cluster-back:${image_tag}"
@@ -154,13 +154,13 @@ pipeline {
                 script {
                     echo 'Deploy FE and/or BE image/s'
                     if (params.frontImgVersion){
-                        sh "sed -i 's|mateduard/k8s-cluster-front:1.5|${fe_image_name}|g' ./deployment/gv-front-deployment.yaml"
+                        sh "sed -i 's|mateduard/k8s-cluster-front:1.5|mateduard/k8s-cluster-front:${fe_image_tag}|g' ./deployment/gv-front-deployment.yaml"
                         sh 'kubectl apply -f ./deployment/gv-front-deployment.yaml'
                         sh 'kubectl rollout status deployment/gv-front --timeout=300s'
                         echo "Frontend image deployed"
                     }
                     if (params.backImgVersion){
-                        sh "sed -i 's|mateduard/k8s-cluster-back:1.5|${be_image_name}|g' ./deployment/gv-back-deployment.yaml"
+                        sh "sed -i 's|mateduard/k8s-cluster-back:1.5|mateduard/k8s-cluster-back:${be_image_tag}|g' ./deployment/gv-back-deployment.yaml"
                         sh 'kubectl apply -f ./deployment/gv-back-deployment.yaml'
                         sh 'kubectl rollout status deployment/gv-back --timeout=300s'
                         echo "Backend image deployed"
