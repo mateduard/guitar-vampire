@@ -169,7 +169,7 @@ pipeline {
                         echo "Frontend image deployed"
                     }
                     if (params.backImgVersion){
-                        echo "Deploying Front image..."
+                        echo "Deploying Back image..."
                         sh "sed -i 's|mateduard/k8s-cluster-back:1.5|${be_image_name}|g' ./deployment/gv-back-deployment.yaml"
                         sh 'kubectl apply -f ./deployment/gv-back-deployment.yaml'
                         sh 'kubectl rollout status deployment/gv-back --timeout=300s'
