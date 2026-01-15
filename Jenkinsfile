@@ -153,13 +153,13 @@ pipeline {
             steps {
                 script {
                     echo 'Deploy FE and/or BE image/s'
-                    if (params.createFrontImage){
+                    if (params.frontImgVersion){
                         sh "sed -i 's|mateduard/k8s-cluster-front:1.5|${fe_image_name}|g' ./deployment/gv-front-deployment.yaml"
                         sh 'kubectl apply -f ./deployment/gv-front-deployment.yaml'
                         sh 'kubectl rollout status deployment/gv-front --timeout=300s'
                         echo "Frontend image deployed"
                     }
-                    if (params.createBackImage){
+                    if (params.backImgVersion){
                         sh "sed -i 's|mateduard/k8s-cluster-back:1.5|${be_image_name}|g' ./deployment/gv-back-deployment.yaml"
                         sh 'kubectl apply -f ./deployment/gv-back-deployment.yaml'
                         sh 'kubectl rollout status deployment/gv-back --timeout=300s'
