@@ -51,6 +51,6 @@ spec:
         - name: VITE_FRONT_PORT
           value: "8080"             # the port frontend app will run on and expose to the service (needs to be the same to container's service targetPort)
         - name: VITE_BACK_SERVICE
-          value: 132.164.141.179     # ip static ingress
+          value: 20.223.96.100     # ip static ingress
         - name: VITE_FRONT_SERVICE
-          value: 132.164.141.179     # ip static ingress
+          value: 20.223.96.100     # ip static ingress
