@@ -4,7 +4,7 @@ spec:
   serviceAccountName: jenkins
   containers:
   - name: jnlp
-    image: jenkins/inbound-agent:latest
+    image: jenkins/inbound-agent:jdk21
     workingDir: /home/jenkins/agent
   - name: main-worker
     image: mateduard/k8s-kaniko-git:1.2

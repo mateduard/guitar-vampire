@@ -109,7 +109,7 @@ pipeline {
             steps {
                 echo 'Build and push FRONTEND image'
                 script {
-                    if (!"${params.frontImgVersion}") {
+                    if (!params.frontImgVersion) {
                         throw new Exception("FRONTEND IMAGE VERSION NOT SPECIFIED. TRY AGAIN")
                     } else {
                         if (env.BRANCH_NAME.startsWith('release/')){
@@ -131,7 +131,7 @@ pipeline {
             steps {
                 echo 'Build and push BACKEND image'
                 script {
-                    if (!"${params.backImgVersion}") {
+                    if (!params.backImgVersion) {
                         throw new Exception("BACKEND IMAGE VERSION NOT SPECIFIED. TRY AGAIN")
                     } else {
                         if (env.BRANCH_NAME.startsWith('release/')){
@@ -148,18 +148,24 @@ pipeline {
         }
         stage('Deploy created images') {
             when {
-                expression { params.deployImages }
+                expression { params.deployImages}
             }
             steps {
                 script {
                     echo 'Deploy FE and/or BE image/s'
-                    if (params.createFrontImage){
+                    if(!params.createFrontImage){
+                        fe_image_name = "mateduard/k8s-cluster-front:${params.frontImgVersion}"
+                    }
+                     if(!params.createBackImage){
+                        be_image_name = "mateduard/k8s-cluster-back:${params.backImgVersion}"
+                    }
+                    if (params.frontImgVersion){
                         sh "sed -i 's|mateduard/k8s-cluster-front:1.5|${fe_image_name}|g' ./deployment/gv-front-deployment.yaml"
                         sh 'kubectl apply -f ./deployment/gv-front-deployment.yaml'
                         sh 'kubectl rollout status deployment/gv-front --timeout=300s'
                         echo "Frontend image deployed"
                     }
-                    if (params.createBackImage){
+                    if (params.backImgVersion){
                         sh "sed -i 's|mateduard/k8s-cluster-back:1.5|${be_image_name}|g' ./deployment/gv-back-deployment.yaml"
                         sh 'kubectl apply -f ./deployment/gv-back-deployment.yaml'
                         sh 'kubectl rollout status deployment/gv-back --timeout=300s'
