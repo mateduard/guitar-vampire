@@ -29,15 +29,13 @@ spec:
         backend:
           service:
             name: prometheus
-            namespace: monitoring
             port:
               number: 80
       - path: /grafana
         pathType: Prefix
         backend:
           service:
-            name: grafana
-            namespace: monitoring            
+            name: grafana            
             port:
               number: 80
       - path: /
