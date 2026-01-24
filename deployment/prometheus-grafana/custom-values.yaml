@@ -1,0 +1,8 @@
+ingress:
+  enabled: true
+  path: /grafana
+
+grafana:
+  # Optional: set the root URL path
+  dashboardProviders:
+    dashboardPath: /grafana
