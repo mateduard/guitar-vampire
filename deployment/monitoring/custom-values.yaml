@@ -1,0 +1,12 @@
+ingress:
+  enabled: true
+  path: /grafana
+
+grafana:
+  # Set the root URL path
+  grafana.ini:
+    server:
+      root_url: "%(protocol)s://%(domain)s/grafana"
+      serve_from_sub_path: true
+  # dashboardProviders:
+  #   dashboardPath: /grafana
