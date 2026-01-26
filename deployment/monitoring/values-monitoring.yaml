@@ -1,7 +1,7 @@
 prometheus:
   enabled: true
   prometheusSpec:
-    externalUrl: /prometheus
+    externalUrl: http://20.223.96.100/prometheus
     routePrefix: /prometheus
 
 grafana:
