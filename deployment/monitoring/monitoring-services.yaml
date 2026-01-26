@@ -5,9 +5,9 @@ metadata:
   namespace: default
 spec:
   type: ExternalName
-  externalName: kube-prometheus-stack-prometheus.monitoring.svc.cluster.local:8080
+  externalName: kube-prometheus-stack-prometheus.monitoring.svc.cluster.local
   ports:
-  - port: 80 #specify the port of service you want to expose 
+  - port: 8080 #specify the port of service you want to expose 
     targetPort: 8080 #port of external service 
 ---
 
