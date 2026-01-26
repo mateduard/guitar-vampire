@@ -1,9 +1,11 @@
 prometheus:
-  server:
-    prefixURL: "/prometheus"
-    baseURL: "/prometheus"
+  enabled: true
+  prometheusSpec:
+    externalUrl: /prometheus
+    routePrefix: /prometheus
 
 grafana:
+  enabled: true
   grafana.ini:
     server:
       root_url: "%(protocol)s://%(domain)s/grafana"
