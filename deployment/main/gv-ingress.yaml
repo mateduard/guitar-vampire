@@ -30,7 +30,7 @@ spec:
           service:
             name: prometheus
             port:
-              number: 8080
+              number: 80
       - path: /grafana
         pathType: Prefix
         backend:
