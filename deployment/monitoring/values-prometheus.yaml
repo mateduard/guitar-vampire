@@ -1,3 +1,0 @@
-server:
-  prefixURL: "/prometheus"
-  baseURL: "/prometheus"
