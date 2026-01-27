@@ -1,0 +1,24 @@
+kind: Service
+apiVersion: v1
+metadata:
+  name: prometheus
+  namespace: default
+spec:
+  type: ExternalName
+  externalName: kube-prometheus-stack-prometheus.monitoring.svc.cluster.local
+  ports:
+  - port: 80 #specify the port of service you want to expose 
+    targetPort: 9090 #port of external service 
+---
+
+kind: Service
+apiVersion: v1
+metadata:
+  name: grafana
+  namespace: default
+spec:
+  type: ExternalName
+  externalName: kube-prometheus-stack-grafana.monitoring.svc.cluster.local
+  ports:
+  - port: 80 #specify the port of service you want to expose 
+    targetPort: 80 #port of external service
