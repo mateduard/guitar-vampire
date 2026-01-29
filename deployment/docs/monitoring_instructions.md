@@ -3,15 +3,12 @@ Prometheus & Grafana
 1. Add repos and create namespace
 ```
 helm repo add prometheus-community https://prometheus-community.github.io/helm-charts
-helm repo add grafana https://grafana.github.io/helm-charts
 helm repo update
-kubectl create namespace monitoring
 ```
 
-2. Deploy Prometheus and Grafana
+2. Deploy Prometheus and Grafana through kube-prometheus-stack from helm
 ```
-helm install prometheus prometheus-community/prometheus --namespace monitoring
-helm install grafana grafana/grafana --namespace monitoring
+helm install kube-prometheus-stack prometheus-community/kube-prometheus-stack -n monitoring
 ```
 
-3. Apply manifests in `monitoring` folder
+3. Apply manifests from `monitoring` folder
