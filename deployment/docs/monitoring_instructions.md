@@ -8,7 +8,7 @@ helm repo update
 
 2. Deploy Prometheus and Grafana through kube-prometheus-stack from helm
 ```
-helm install kube-prometheus-stack prometheus-community/kube-prometheus-stack -n monitoring
+helm install kube-prometheus-stack prometheus-community/kube-prometheus-stack -n monitoring --version 81.2.2 -f values-monitoring.yaml
 ```
 
 3. Apply manifests from `monitoring` folder

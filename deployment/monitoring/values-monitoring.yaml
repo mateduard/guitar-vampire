@@ -10,3 +10,16 @@ grafana:
     server:
       root_url: "%(protocol)s://%(domain)s/grafana"
       serve_from_sub_path: true
+
+additionalServiceMonitors:
+  - name: gv-back
+    selector:
+      matchLabels:
+        app: gv-back
+    namespaceSelector:
+      matchNames:
+        - default
+    endpoints:
+      - port: http
+        path: /metrics
+        interval: 10s
