@@ -27,7 +27,7 @@ data:
     "editable": true,
     "fiscalYearStartMonth": 0,
     "graphTooltip": 0,
-    "id": 0,
+    "id": 10,
     "links": [],
     "panels": [
       {
@@ -111,7 +111,7 @@ data:
             "sort": "none"
           }
         },
-        "pluginVersion": "12.3.1",
+        "pluginVersion": "12.3.2",
         "targets": [
           {
             "datasource": {
@@ -146,7 +146,9 @@ data:
     "preload": false,
     "refresh": "",
     "schemaVersion": 42,
-    "tags": [],
+    "tags": [
+      "App"
+    ],
     "templating": {
       "list": []
     },
@@ -158,5 +160,5 @@ data:
     "timezone": "browser",
     "title": "GV Back – Traffic metrics",
     "uid": "addz9d7",
-    "version": 4
+    "version": 1
     }
