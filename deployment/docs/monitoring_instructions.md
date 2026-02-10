@@ -13,5 +13,3 @@ helm repo update
 ```
 helm install kube-prometheus-stack prometheus-community/kube-prometheus-stack -n monitoring --version 81.2.2 -f values-monitoring.yaml
 ```
-
-4. Apply  from `monitoring` folder
