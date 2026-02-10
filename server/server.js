@@ -1,6 +1,7 @@
 const back_properties = require('./config/back_properties');
 const express = require('express');
 const connectDB = require('./config/db');
+const client = require('prom-client');
 // require('dotenv').config();
 const back_port = back_properties.BACK_PORT;
 const cors = require('cors');
@@ -26,15 +27,27 @@ app.use(
   } */)
 );
 
+const rootAccessCounter = new client.Counter({
+  name: 'root_route_access_total',
+  help: 'Number of times the / route has been accessed',
+});
+
 app.get('/', (req, res) => {
-  console.log();
+  console.log("Someone hit the root page (/)");
+  rootAccessCounter.inc();
   res.json({
     message: `Welcome to the GuitarVampire API. This service is exposed at ${back_properties.BACK_SERVICE}:${back_properties.BACK_PORT}`,
   });
 });
 
-const guitarsRouter = require('./routes/guitars');
+module.exports = rootAccessCounter;
+
+// const guitarsRouter = require('./routes/guitars');
+const { router: guitarsRouter } = require('./routes/guitars');
 app.use('/api/guitars', guitarsRouter);
+
+const metricsRouter = require('./routes/metrics');
+app.use('/metrics', metricsRouter);
 
 app.listen(back_port, () => {
   console.log(`Server is running on port ${back_port}`);
