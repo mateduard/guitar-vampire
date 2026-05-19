@@ -21,4 +21,4 @@ spec:
       items:
       - key: .dockerconfigjson
         path: config.json 
-      optional: true      # If secret doesn't exist, let jenkins pipeline create it on the worker instead of preventing the worker to start
+      optional: true      # If secret doesn't exist, it lets jenkins pipeline create it on the worker instead of preventing the worker to start
